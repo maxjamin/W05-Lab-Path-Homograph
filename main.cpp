@@ -2,6 +2,7 @@
 #include <list>
 #include <cstring>
 #define  MaxNum 100
+#define	forbiddenPath "/home/readyone/Documents/school2/schoolWinter2020/cs470/W05-Lab-Path-Homograph/password.txt"
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -103,7 +104,7 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
  **********************************************************************/
 int Canonicalization()
 {
-	
+
   	return 0;
 }
 
