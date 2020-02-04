@@ -68,29 +68,28 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
   
   for(int i=0; i <= std::strlen(userInput); i++)
     {
-      std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
-
+      //std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
       //if new / is encountered add new char array to list and set counter to zero
       if((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput))
       {
-	std::string str(tempCopyArray, counterForCopy);
-	
-	std::cout << "Str " << str << " Size " << counterForCopy << "\n";
-	parsedUserInput->push_back(str);
+		std::string str(tempCopyArray, counterForCopy);
+		
+		std::cout << "Str " << str << " Size " << counterForCopy << "\n";
+		parsedUserInput->push_back(str);
 
-	//clean the temp array
-        for(int x=0; x < std::strlen(tempCopyArray);x++)
-	  {
-	    tempCopyArray[x] = '\0';
-	  }
-	counterForCopy = 0;
+		//clean the temp array
+	    for(int x=0; x < std::strlen(tempCopyArray);x++)
+		{
+			tempCopyArray[x] = '\0';
+		}
+		counterForCopy = 0;
 	
 	
       } //increment temp array if 1st [] isn't /
       else if(userInput[i] != '/')
       {
-	tempCopyArray[counterForCopy] = userInput[i];
-	counterForCopy++;
+		tempCopyArray[counterForCopy] = userInput[i];
+		counterForCopy++;
       }
     }
 
@@ -116,17 +115,17 @@ int Canonicalization()
  ************************************************************************/
 int main()
 {
-  char userInput[MaxNum];
-  std::list<std::string> parsedUserInput;
+	char userInput[MaxNum];
+  	std::list<std::string> parsedUserInput;
   
-  getUserInput(userInput);
-  parseUserInput(userInput, &parsedUserInput);
+  	getUserInput(userInput);
+  	parseUserInput(userInput, &parsedUserInput);
 
-  /*Testing output of userinput into list*/
-  std::cout << "Output from list: \n";
-  std::list<std::string>::iterator itt = parsedUserInput.begin();
-  for(; itt != parsedUserInput.end(); itt++)
-    std::cout << *itt << " \n";
+  	/*Testing output of userinput into list*/
+  	std::cout << "Output from list: \n";
+  	std::list<std::string>::iterator itt = parsedUserInput.begin();
+  	for(; itt != parsedUserInput.end(); itt++)
+    	std::cout << *itt << " \n";
   
-  return 0;
+  	return 0;
 }
