@@ -3,7 +3,7 @@
 #include <list>
 #include <cstring>
 
-#define  MaxNum 100
+#define MaxNum 1000
 #define	forbiddenPath "../W05-Lab-Path-Homograph/password.txt"
 /***********************************************************************
 * Program:
@@ -62,7 +62,7 @@ int getUserInput(char *userInput)
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
+int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int pushDirection)
 {
 
   char tempCopyArray[MaxNum];
@@ -76,8 +76,11 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
       {
 		std::string str(tempCopyArray, counterForCopy);
 		
-		std::cout << "Str " << str << " Size " << counterForCopy << "\n";
-		parsedUserInput->push_back(str);
+		//std::cout << "Str " << str << " Size " << counterForCopy << "\n";
+		if(pushDirection)
+			parsedUserInput->push_back(str);
+		else
+			parsedUserInput->push_front(str);
 
 		//clean the temp array
 	    for(int x=0; x < std::strlen(tempCopyArray);x++)
@@ -125,12 +128,15 @@ int Canonicalization(std::list<std::string> *parsedUserInput)
 	char cwd[100];
 	std::list<std::string> parsedCwd;
 	getCurrentDirectory(cwd);
-	parseUserInput(cwd, &parsedCwd);
+	parseUserInput(cwd, &parsedCwd, 0);
 
-	printf("Curren1t working dir: %s\n", cwd); 
+	printf("Current working dir: %s\n", cwd); 
 
 	//iterate through the list of userInput
 	std::list<std::string>::iterator itt = parsedUserInput->begin();
+	std::list<std::string>::iterator cwdItt = parsedCwd.begin();
+
+
   	for(; itt != parsedUserInput->end(); itt++)
   	{
   		//for the /./ replace with working directory
@@ -155,7 +161,7 @@ int main()
   	std::list<std::string> parsedUserInput;
   
   	getUserInput(userInput);
-  	parseUserInput(userInput, &parsedUserInput);
+  	parseUserInput(userInput, &parsedUserInput, 1);
 
   	Canonicalization(&parsedUserInput);
 
