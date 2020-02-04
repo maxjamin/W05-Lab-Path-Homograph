@@ -75,7 +75,7 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
 	std::string str(tempCopyArray, counterForCopy);
 	
 	std::cout << "Str " << str << " Size " << counterForCopy << "\n";
-	parsedUserInput->push_front(str);
+	parsedUserInput->push_back(str);
 
 	//clean the temp array
         for(int x=0; x < std::strlen(tempCopyArray);x++)
@@ -97,13 +97,14 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
   
 
   
-  return 0;
+  	return 0;
 }
 /***********************************************************************
  **********************************************************************/
 int Canonicalization()
 {
-  return 0;
+	
+  	return 0;
 }
 
 /***********************************************************************
