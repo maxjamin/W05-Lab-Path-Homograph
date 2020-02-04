@@ -1,4 +1,5 @@
 #include <iostream>
+#define  MaxNumDirectories 10
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -43,10 +44,10 @@ int NonHomographsTest()
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int getUserInput(std::string &userInput)
+int getUserInput(std::string *userInput)
 {
   std::cout << "Please enter a filepath: ";
-  getline(std::cin, userInput);
+  getline(std::cin, *userInput);
   return 0;
 }
 
@@ -56,8 +57,10 @@ int getUserInput(std::string &userInput)
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int parseUserInput(std::string &userInput)
+int parseUserInput(std::string *userInput, std::string *parsedUserInput)
 {
+  
+
   
   return 0;
 }
@@ -71,10 +74,11 @@ int parseUserInput(std::string &userInput)
 int main()
 {
   std::string userInput;
-  std::string parsedUserInput;
+  std::string parsedUserInput[100];
   
-  getUserInput(userInput);
+  getUserInput(&userInput);
 
+  parseUserInput(&userInput, parsedUserInput);
   
   return 0;
 }
