@@ -1,4 +1,5 @@
 #include <iostream>
+#include <list>
 #define  MaxNumDirectories 10
 /***********************************************************************
 * Program:
@@ -44,10 +45,10 @@ int NonHomographsTest()
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int getUserInput(std::string *userInput)
+int getUserInput(char *userInput)
 {
   std::cout << "Please enter a filepath: ";
-  getline(std::cin, *userInput);
+  std::cin>> userInput;
   return 0;
 }
 
@@ -57,8 +58,17 @@ int getUserInput(std::string *userInput)
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int parseUserInput(std::string *userInput, std::string *parsedUserInput)
+int parseUserInput(char *userInput, std::list<char>parsedUserInput)
 {
+
+  for(int i=0;  userInput[i] != '\0'; i++)
+    {
+      std::cout << userInput[i] << " ";
+      if(userInput[i] == "/")
+      {
+	  std::cout << "!!";
+      }
+    }
   
 
   
@@ -73,12 +83,11 @@ int parseUserInput(std::string *userInput, std::string *parsedUserInput)
  ************************************************************************/
 int main()
 {
-  std::string userInput;
-  std::string parsedUserInput[100];
+  char userInput[MaxNumDirectories];
+  std::list<char> parsedUserInput;
   
-  getUserInput(&userInput);
-
-  parseUserInput(&userInput, parsedUserInput);
+  getUserInput(userInput);
+  parseUserInput(userInput, parsedUserInput);
   
   return 0;
 }
