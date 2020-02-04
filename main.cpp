@@ -59,7 +59,7 @@ int getUserInput(char *userInput)
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int parseUserInput(char *userInput, std::list<std::string>parsedUserInput)
+int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
 {
 
   char tempCopyArray[MaxNum];
@@ -73,10 +73,11 @@ int parseUserInput(char *userInput, std::list<std::string>parsedUserInput)
       if((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput))
       {
 	std::string str(tempCopyArray, counterForCopy);
-
+	
 	std::cout << "Str " << str << " Size " << counterForCopy << "\n";
-	parsedUserInput.push_front(str);
+	parsedUserInput->push_front(str);
 
+	//clean the temp array
         for(int x=0; x < std::strlen(tempCopyArray);x++)
 	  {
 	    tempCopyArray[x] = '\0';
@@ -84,7 +85,7 @@ int parseUserInput(char *userInput, std::list<std::string>parsedUserInput)
 	counterForCopy = 0;
 	
 	
-      }
+      } //increment temp array if 1st [] isn't /
       else if(userInput[i] != '/')
       {
 	tempCopyArray[counterForCopy] = userInput[i];
@@ -111,7 +112,12 @@ int main()
   std::list<std::string> parsedUserInput;
   
   getUserInput(userInput);
-  parseUserInput(userInput, parsedUserInput);
+  parseUserInput(userInput, &parsedUserInput);
+
+  /*Testing output of userinput into list*/
+  std::list<std::string>::iterator itt = parsedUserInput.begin();
+  for(; itt != parsedUserInput.end(); itt++)
+    std::cout << *itt << " \n";
   
   return 0;
 }
