@@ -1,8 +1,10 @@
 #include <iostream>
+#include <unistd.h> 
 #include <list>
 #include <cstring>
+
 #define  MaxNum 100
-#define	forbiddenPath "/home/readyone/Documents/school2/schoolWinter2020/cs470/W05-Lab-Path-Homograph/password.txt"
+#define	forbiddenPath "../W05-Lab-Path-Homograph/password.txt"
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -100,12 +102,28 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
   	return 0;
 }
 /***********************************************************************
+* Function: getCurrentDirectory
+* Summary:
+* get current directory in a char array. Based from:
+https://stackoverflow.com/questions/298510/how-to-get-the-current-directory-in-a-c-program
+ **********************************************************************/
+int getCurrentDirectory()
+{
+	std::cout << "test01\n";
+	char cwd[100];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    	printf("Current working dir: %s\n", cwd);
+   	} else {
+       	perror("getcwd() error");
+       	return 1;
+   	}
+  	return 0;
+}
+/***********************************************************************
  **********************************************************************/
 int Canonicalization(std::list<std::string> *parsedUserInput)
 {
-	
-	
-  	return 0;
+
 }
 
 /***********************************************************************
