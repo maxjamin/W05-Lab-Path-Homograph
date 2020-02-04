@@ -1,6 +1,7 @@
 #include <iostream>
 #include <list>
-#define  MaxNumDirectories 10
+#include <cstring>
+#define  MaxNum 100
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -58,17 +59,40 @@ int getUserInput(char *userInput)
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int parseUserInput(char *userInput, std::list<char>parsedUserInput)
+int parseUserInput(char *userInput, std::list<std::string>parsedUserInput)
 {
 
-  for(int i=0;  userInput[i] != '\0'; i++)
+  char tempCopyArray[MaxNum];
+  int counterForCopy = 0;
+  
+  for(int i=0; i <= std::strlen(userInput); i++)
     {
-      std::cout << userInput[i] << " ";
-      if(userInput[i] == "/")
+      std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
+
+      //if new / is encountered add new char array to list and set counter to zero
+      if((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput))
       {
-	  std::cout << "!!";
+	std::string str(tempCopyArray, counterForCopy);
+
+	std::cout << "Str " << str << " Size " << counterForCopy << "\n";
+	parsedUserInput.push_front(str);
+
+        for(int x=0; x < std::strlen(tempCopyArray);x++)
+	  {
+	    tempCopyArray[x] = '\0';
+	  }
+	counterForCopy = 0;
+	
+	
+      }
+      else
+      {
+	tempCopyArray[counterForCopy] = userInput[i];
+	counterForCopy++;
       }
     }
+
+   
   
 
   
@@ -83,8 +107,8 @@ int parseUserInput(char *userInput, std::list<char>parsedUserInput)
  ************************************************************************/
 int main()
 {
-  char userInput[MaxNumDirectories];
-  std::list<char> parsedUserInput;
+  char userInput[MaxNum];
+  std::list<std::string> parsedUserInput;
   
   getUserInput(userInput);
   parseUserInput(userInput, parsedUserInput);
