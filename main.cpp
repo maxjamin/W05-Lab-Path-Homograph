@@ -123,7 +123,7 @@ int getCurrentDirectory(char (&cwd)[100])
 }
 /***********************************************************************
  **********************************************************************/
-int Canonicalization(std::list<std::string> *parsedUserInput)
+int canonicalization(std::list<std::string> *parsedUserInput)
 {
 	char cwd[100];
 	std::list<std::string> parsedCwd;
@@ -163,7 +163,7 @@ int main()
   	getUserInput(userInput);
   	parseUserInput(userInput, &parsedUserInput, 1);
 
-  	Canonicalization(&parsedUserInput);
+  	canonicalization(&parsedUserInput);
 
   	/*Testing output of userinput into list*/
   	std::cout << "Output from list: \n";
