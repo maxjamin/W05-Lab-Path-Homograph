@@ -101,9 +101,10 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
 }
 /***********************************************************************
  **********************************************************************/
-int Canonicalization()
+int Canonicalization(std::list<std::string> *parsedUserInput)
 {
-
+	
+	
   	return 0;
 }
 
@@ -120,6 +121,8 @@ int main()
   
   	getUserInput(userInput);
   	parseUserInput(userInput, &parsedUserInput);
+
+  	Canonicalization(&parsedUserInput);
 
   	/*Testing output of userinput into list*/
   	std::cout << "Output from list: \n";
