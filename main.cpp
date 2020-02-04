@@ -136,12 +136,25 @@ int canonicalization(std::list<std::string> *parsedUserInput)
 	std::list<std::string>::iterator itt = parsedUserInput->begin();
 	std::list<std::string>::iterator cwdItt = parsedCwd.begin();
 
+	std::cout << " 1 Output from list: \n";
+  	std::list<std::string>::iterator cwdIttt = parsedCwd.begin();
+  	for(; cwdIttt != parsedCwd.end(); cwdIttt++)
+    	std::cout << *cwdIttt << " \n";
+
 
   	for(; itt != parsedUserInput->end(); itt++)
   	{
   		//for the /./ replace with working directory
-
-  		//for the /../ replace with working directory
+  		if("." == *itt)
+  		{
+  			parsedCwd.pop_front();
+  		}
+  		//for the /../ replace with parent working directory
+  		else if(".." == *itt)
+  		{
+  			//parsedUserInput->pop_front();
+  			//*itt = parsedCwd.front();
+  		}
 
   		//replace Uppercase with lowerCase
 
