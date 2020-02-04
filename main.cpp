@@ -121,6 +121,7 @@ int main()
   parseUserInput(userInput, &parsedUserInput);
 
   /*Testing output of userinput into list*/
+  std::cout << "Output from list: \n";
   std::list<std::string>::iterator itt = parsedUserInput.begin();
   for(; itt != parsedUserInput.end(); itt++)
     std::cout << *itt << " \n";
