@@ -123,9 +123,23 @@ int getCurrentDirectory(char (&cwd)[100])
 int Canonicalization(std::list<std::string> *parsedUserInput)
 {
 	char cwd[100];
+	std::list<std::string> parsedCwd;
 	getCurrentDirectory(cwd);
+	parseUserInput(cwd, &parsedCwd);
+
 	printf("Curren1t working dir: %s\n", cwd); 
 
+	//iterate through the list of userInput
+	std::list<std::string>::iterator itt = parsedUserInput->begin();
+  	for(; itt != parsedUserInput->end(); itt++)
+  	{
+  		//for the /./ replace with working directory
+
+  		//for the /../ replace with working directory
+
+  		//replace Uppercase with lowerCase
+
+  	}
 
 }
 
