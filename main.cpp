@@ -107,12 +107,11 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput)
 * get current directory in a char array. Based from:
 https://stackoverflow.com/questions/298510/how-to-get-the-current-directory-in-a-c-program
  **********************************************************************/
-int getCurrentDirectory()
+int getCurrentDirectory(char (&cwd)[100])
 {
 	std::cout << "test01\n";
-	char cwd[100];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
-    	printf("Current working dir: %s\n", cwd);
+    	//printf("Current working dir: %s\n", cwd);
    	} else {
        	perror("getcwd() error");
        	return 1;
@@ -123,6 +122,10 @@ int getCurrentDirectory()
  **********************************************************************/
 int Canonicalization(std::list<std::string> *parsedUserInput)
 {
+	char cwd[100];
+	getCurrentDirectory(cwd);
+	printf("Curren1t working dir: %s\n", cwd); 
+
 
 }
 
