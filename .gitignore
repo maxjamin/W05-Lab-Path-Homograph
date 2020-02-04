@@ -1,0 +1,3 @@
+# Exclude executables
+a.exe
+a.out
