@@ -85,7 +85,7 @@ int parseUserInput(char *userInput, std::list<std::string>parsedUserInput)
 	
 	
       }
-      else
+      else if(userInput[i] != '/')
       {
 	tempCopyArray[counterForCopy] = userInput[i];
 	counterForCopy++;
