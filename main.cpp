@@ -6,7 +6,7 @@
 #include <cctype>
 #include <algorithm>
 #define MaxNum 1000
-#define	forbiddenPath "./../W05-Lab-Path-Homograph/password.txt"
+#define	forbiddenPath "/home/readyone/Documents/school2/schoolWinter2020/cs470/W05-Lab-Path-Homograph"
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -217,9 +217,11 @@ int main()
   	for(; itt != parsedUserInput.end(); itt++)
     	std::cout << *itt << " \n";
 
+    /*Forbidden file path..*/
+    std::cout << "Forbidden file path " << forbiddenPath << "\n";
+
 
     //check if input against homoHomograph and non-Homograph function
-    
-  
+
   	return 0;
 }
