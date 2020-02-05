@@ -164,7 +164,7 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   			if(*++itt2 != ".."){
   				std::cout << "	Next is not of type ..s\n";
 
-  				std::list<std::string>::iterator tempitt = itt;
+  				std::list<std::string>::iterator tempitt = itt--;
   				std::list<std::string>::iterator tempCwd = cwdItt;
   				for(; tempCwd != parsedCwd.begin(); --tempCwd, --itt)
   				{
