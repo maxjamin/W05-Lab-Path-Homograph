@@ -2,7 +2,9 @@
 #include <unistd.h> 
 #include <list>
 #include <cstring>
-
+#include <string>
+#include <cctype>
+#include <algorithm>
 #define MaxNum 1000
 #define	forbiddenPath "../W05-Lab-Path-Homograph/password.txt"
 /***********************************************************************
@@ -121,6 +123,19 @@ int getCurrentDirectory(char (&cwd)[100])
   	return 0;
 }
 /***********************************************************************
+* Based on https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
+ **********************************************************************/
+std::string toLowerCase(std::string input)
+{
+  	//replace Uppercase with lowerCase
+  	std::transform(input.begin(), input.end(), input.begin(),
+    [](unsigned char c){ return std::tolower(c); });
+	
+	return input;
+}
+
+/***********************************************************************
+
  **********************************************************************/
 int canonicalization(std::list<std::string> *parsedUserInput)
 {
@@ -146,7 +161,6 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   	{
 
   		std::cout << "Itt is " << *itt << "\n";
-
   		//for the /./ replace with working directory
   		if("." == *itt)
   		{
@@ -156,7 +170,6 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   		//for the /../ replace with parent working directory
   		else if(".." == *itt)
   		{
-  		
     		std::cout << "Itts starting point " << *itt << "\n";
   			/*check to see if next is .. or not, if not then add 
   			the values to the parsedUserInput list*/
@@ -170,15 +183,21 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   				--theEnd;
   				for(; tempitt != theEnd; tempCwd--, tempitt--)
   				{
-  					*tempitt = *tempCwd;
+  					//convert to lowerCase
+  					std::string tempString = *tempCwd;
+  					*tempitt = toLowerCase(tempString);
   				}
 
   			}
   			cwdItt++;
 
   		}
+  		else
+  			//convert to lowerCase 
+  		{	std::string tempString = *itt;
+  			*itt = toLowerCase(tempString);
+  		}
 
-  		//replace Uppercase with lowerCase
 
   	}
 
