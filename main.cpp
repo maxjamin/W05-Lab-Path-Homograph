@@ -75,8 +75,7 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
       if((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput))
       {
 		std::string str(tempCopyArray, counterForCopy);
-		
-		//std::cout << "Str " << str << " Size " << counterForCopy << "\n";
+
 		if(pushDirection)
 			parsedUserInput->push_back(str);
 		else
@@ -134,26 +133,47 @@ int canonicalization(std::list<std::string> *parsedUserInput)
 
 	//iterate through the list of userInput
 	std::list<std::string>::iterator itt = parsedUserInput->begin();
+	std::list<std::string>::iterator itt2 = itt;
 	std::list<std::string>::iterator cwdItt = parsedCwd.begin();
 
-	std::cout << " 1 Output from list: \n";
+	std::cout << "................ 1 Output from list: \n";
   	std::list<std::string>::iterator cwdIttt = parsedCwd.begin();
   	for(; cwdIttt != parsedCwd.end(); cwdIttt++)
     	std::cout << *cwdIttt << " \n";
 
 
-  	for(; itt != parsedUserInput->end(); itt++)
+  	LOOP:for(; itt != parsedUserInput->end(); itt++)
   	{
+
+  		std::cout << "Itt is " << *itt << "\n";
+
   		//for the /./ replace with working directory
   		if("." == *itt)
   		{
-  			parsedCwd.pop_front();
+  			itt = parsedUserInput->erase(itt);
+  			goto LOOP; //not pretty but skip to start of next loop
   		}
   		//for the /../ replace with parent working directory
   		else if(".." == *itt)
   		{
-  			//parsedUserInput->pop_front();
-  			//*itt = parsedCwd.front();
+  			std::cout << "	Itt++ is " << *cwdItt << "\n";
+
+  			/*check to see if next is .. or not, if not then add 
+  			the values to the parsedUserInput list*/
+  			itt2 = itt;
+  			if(*++itt2 != ".."){
+  				std::cout << "	Next is not of type ..s\n";
+
+  				std::list<std::string>::iterator tempitt = itt;
+  				std::list<std::string>::iterator tempCwd = cwdItt;
+  				for(; tempCwd != parsedCwd.begin(); --tempCwd, --itt)
+  				{
+  					*itt = *tempCwd;
+  				}
+
+  			}
+  			cwdItt++;
+
   		}
 
   		//replace Uppercase with lowerCase
@@ -179,7 +199,7 @@ int main()
   	canonicalization(&parsedUserInput);
 
   	/*Testing output of userinput into list*/
-  	std::cout << "Output from list: \n";
+  	std::cout << "..........Output from list: .......................\n";
   	std::list<std::string>::iterator itt = parsedUserInput.begin();
   	for(; itt != parsedUserInput.end(); itt++)
     	std::cout << *itt << " \n";
