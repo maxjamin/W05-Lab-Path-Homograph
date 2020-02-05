@@ -6,7 +6,7 @@
 #include <cctype>
 #include <algorithm>
 #define MaxNum 1000
-#define	forbiddenPath "../W05-Lab-Path-Homograph/password.txt"
+#define	forbiddenPath "./../W05-Lab-Path-Homograph/password.txt"
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -66,7 +66,7 @@ int getUserInput(char *userInput)
 *    ParseUserInput()
 * Inputs: char pointer, list<String> by pointer, int Direct of traversal for pushing onto the list
 * Summary:
-*    Get the userinput and pass to parameter. 
+*    Place userInputs into a list.  
  ************************************************************************/
 int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int pushDirection)
 {
@@ -81,7 +81,11 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
       if(((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput)) ||
       	((userInput[i] == '\\' && counterForCopy != 0) || i == std::strlen(userInput)))
       {
+
 		std::string str(tempCopyArray, counterForCopy);
+		// If file path starts with / erase the char "/"
+		if(str[0] == '/')
+			str.erase(str.begin());
 
 		if(pushDirection)
 			parsedUserInput->push_back(str);
@@ -96,7 +100,8 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
 		counterForCopy = 0;
 	
 	
-      } //increment temp array if 1st [] isn't /
+      }
+      //increment temp array if 1st [] isn't /
       else if(userInput[i] != '/' || userInput[i] != '\\')
       {
 		tempCopyArray[counterForCopy] = userInput[i];
@@ -145,60 +150,41 @@ std::string toLowerCase(std::string input)
 /***********************************************************************
 * Function: canonicalization()
 * Inputs: list<String> , pointer User Input, list<String> by pointer ,file 
-* path of executable 
+* path of executable in list form
 * first input userinput, second is the filepath of the Executable 
  **********************************************************************/
 int canonicalization(std::list<std::string> *parsedUserInput, 
 	std::list<std::string> *parsedCwd)
 {
-	//iterate through the list of userInput
-	std::list<std::string>::iterator itt = parsedUserInput->begin();
-	std::list<std::string>::iterator itt2 = itt;
-	std::list<std::string>::iterator cwdItt = parsedCwd->begin();
+  	std::list<std::string>::reverse_iterator revIt;
+  	std::list<std::string>::iterator cwdItt = parsedCwd->begin();
+  	cwdItt++;
 
-	std::cout << "................ 1 Output from list, Directory Path:\n";
-  	std::list<std::string>::iterator cwdIttt = parsedCwd->begin();
-  	for(; cwdIttt != parsedCwd->end(); cwdIttt++)
-    	std::cout << *cwdIttt << " \n";
-
-  	LOOP:for(; itt != parsedUserInput->end(); itt++)
-  	{
-  		std::cout << "Itt is " << *itt << "\n";
-  		//for the /./ replace with working directory
-  		if("." == *itt)
+  	//loop backwards through parsedUserInput
+  	for (revIt = parsedUserInput->rbegin(); 
+  		revIt != parsedUserInput->rend(); revIt++)
+	{
+		//Replace all iterators with the value ".." from parsedCwd list
+		if(*revIt == "..")
+		{
+			std::cout << "revit is " << *revIt << "\n";
+			*revIt = *cwdItt;
+			cwdItt++;
+		}
+		//Remove all "."
+		else if(*revIt == ".")
   		{
-  			itt = parsedUserInput->erase(itt);
-  			goto LOOP; //not pretty but skip to start of next loop
+  			/*After research of erase function w/ reverse iterator
+  			from https://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator*/
+  			parsedUserInput->erase( --(revIt.base()));
+  			
   		}
-  		//for the /../ replace with parent working directory
-  		else if(".." == *itt)
-  		{
-    		std::cout << "Itts starting point " << *itt << "\n";
-  			/*check to see if next is .. or not, if not then add 
-  			the values to the parsedUserInput list*/
-  			itt2 = itt;
-  			if(*++itt2 != "..")
-  			{
-				
-  				std::list<std::string>::iterator tempitt = itt;
-  				std::list<std::string>::iterator tempCwd = parsedCwd->begin();
-  				std::list<std::string>::iterator theEnd = parsedUserInput->begin();
-  				--theEnd;
-  				for(; tempitt != theEnd; tempCwd++, tempitt--)
-  				{
-  					//convert to lowerCase
-  					std::string tempString = *tempCwd;
-  					*tempitt = toLowerCase(tempString);
-  				}
-  			}
-  			cwdItt++;
+  		else //convert iterators with Upper letters to lowerCase 
+  		{	
+  			std::string tempString = *revIt;
+  			*revIt = toLowerCase(tempString);
   		}
-  		else
-  			//convert to lowerCase 
-  		{	std::string tempString = *itt;
-  			*itt = toLowerCase(tempString);
-  		}
-  	}
+	}
 
 }
 
