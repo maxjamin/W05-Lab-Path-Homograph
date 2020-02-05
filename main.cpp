@@ -184,7 +184,7 @@ int canonicalization(std::list<std::string> *parsedUserInput,
   			*revIt = toLowerCase(tempString);
   		}
 	}
-
+	return 0;
 }
 
 /***********************************************************************
@@ -216,6 +216,10 @@ int main()
   	std::list<std::string>::iterator itt = parsedUserInput.begin();
   	for(; itt != parsedUserInput.end(); itt++)
     	std::cout << *itt << " \n";
+
+
+    //check if input against homoHomograph and non-Homograph function
+    
   
   	return 0;
 }
