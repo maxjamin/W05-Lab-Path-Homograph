@@ -156,19 +156,21 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   		//for the /../ replace with parent working directory
   		else if(".." == *itt)
   		{
-  			std::cout << "	Itt++ is " << *cwdItt << "\n";
-
+  		
+    		std::cout << "Itts starting point " << *itt << "\n";
   			/*check to see if next is .. or not, if not then add 
   			the values to the parsedUserInput list*/
   			itt2 = itt;
-  			if(*++itt2 != ".."){
-  				std::cout << "	Next is not of type ..s\n";
-
-  				std::list<std::string>::iterator tempitt = itt--;
+  			if(*++itt2 != "..")
+  			{
+				
+  				std::list<std::string>::iterator tempitt = itt;
   				std::list<std::string>::iterator tempCwd = cwdItt;
-  				for(; tempCwd != parsedCwd.begin(); --tempCwd, --itt)
+  				std::list<std::string>::iterator theEnd = parsedUserInput->begin();
+  				--theEnd;
+  				for(; tempitt != theEnd; tempCwd--, tempitt--)
   				{
-  					*itt = *tempCwd;
+  					*tempitt = *tempCwd;
   				}
 
   			}
