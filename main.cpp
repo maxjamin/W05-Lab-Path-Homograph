@@ -156,10 +156,8 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   	for(; cwdIttt != parsedCwd.end(); cwdIttt++)
     	std::cout << *cwdIttt << " \n";
 
-
   	LOOP:for(; itt != parsedUserInput->end(); itt++)
   	{
-
   		std::cout << "Itt is " << *itt << "\n";
   		//for the /./ replace with working directory
   		if("." == *itt)
@@ -187,7 +185,6 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   					std::string tempString = *tempCwd;
   					*tempitt = toLowerCase(tempString);
   				}
-
   			}
   			cwdItt++;
 
@@ -197,8 +194,6 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   		{	std::string tempString = *itt;
   			*itt = toLowerCase(tempString);
   		}
-
-
   	}
 
 }
@@ -216,7 +211,6 @@ int main()
   
   	getUserInput(userInput);
   	parseUserInput(userInput, &parsedUserInput, 1);
-
   	canonicalization(&parsedUserInput);
 
   	/*Testing output of userinput into list*/
