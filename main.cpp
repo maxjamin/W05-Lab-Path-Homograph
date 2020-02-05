@@ -14,9 +14,9 @@
 * Author:
 *    John Miller
 *    Bretton Steiner
-*    Henrique Vaz
+*	 Ben Smith
 *    Tyler Starr
-*    Ben Smith
+*
 * Summary:
 *    Enter a brief description of your program here!
  ************************************************************************/
@@ -24,6 +24,7 @@
 /***********************************************************************
 * Function:
 *    HomographsTest()
+* Inputs:
 * Summary:
 *    Enter a brief description of the function.
  ************************************************************************/
@@ -36,6 +37,7 @@ int HomographsTest()
 /***********************************************************************
 * Function:
 *    NonHomographsTest()
+* Inputs:
 * Summary:
 *    Enter a brief description of the function.
  ************************************************************************/
@@ -48,6 +50,7 @@ int NonHomographsTest()
 /***********************************************************************
 * Function:
 *    getUserInput()
+* Inputs: char pointer
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
@@ -61,6 +64,7 @@ int getUserInput(char *userInput)
 /***********************************************************************
 * Function:
 *    ParseUserInput()
+* Inputs: char pointer, list<String> by pointer, int Direct of traversal for pushing onto the list
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
@@ -107,11 +111,11 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
 }
 /***********************************************************************
 * Function: getCurrentDirectory
-* Summary:
-* get current directory in a char array. Based from:
+* Inputs: char array by reference
+* Summary: get current directory in a char array. Based from:
 https://stackoverflow.com/questions/298510/how-to-get-the-current-directory-in-a-c-program
  **********************************************************************/
-int getCurrentDirectory(char (&cwd)[100])
+int getCurrentDirectory(char (&cwd)[MaxNum])
 {
 	std::cout << "test01\n";
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
@@ -121,9 +125,12 @@ int getCurrentDirectory(char (&cwd)[100])
        	return 1;
    	}
   	return 0;
-}
+} 
 /***********************************************************************
-* Based on https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
+* Function: toLowerCase()
+* Inputs: string 
+* Summary: Converts a string to all lowercase values
+ Based on https://stackoverflow.com/questions/313970/how-to-convert-stdstring-to-lower-case
  **********************************************************************/
 std::string toLowerCase(std::string input)
 {
@@ -135,7 +142,9 @@ std::string toLowerCase(std::string input)
 }
 
 /***********************************************************************
-*
+* Function: canonicalization()
+* Inputs: list<String> by pointer UserInput, list<String> by pointer file 
+* path of executable 
 * first input userinput, second is the filepath of the Executable 
  **********************************************************************/
 int canonicalization(std::list<std::string> *parsedUserInput, 
@@ -171,10 +180,10 @@ int canonicalization(std::list<std::string> *parsedUserInput,
   			{
 				
   				std::list<std::string>::iterator tempitt = itt;
-  				std::list<std::string>::iterator tempCwd = cwdItt;
+  				std::list<std::string>::iterator tempCwd = parsedCwd->begin();
   				std::list<std::string>::iterator theEnd = parsedUserInput->begin();
   				--theEnd;
-  				for(; tempitt != theEnd; tempCwd--, tempitt--)
+  				for(; tempitt != theEnd; tempCwd++, tempitt--)
   				{
   					//convert to lowerCase
   					std::string tempString = *tempCwd;
@@ -195,13 +204,14 @@ int canonicalization(std::list<std::string> *parsedUserInput,
 /***********************************************************************
 * Function:
 *    main()
+* Inputs: none
 * Summary:
 *    Enter a brief description of the function.
  ************************************************************************/
 int main()
 {
 	char userInput[MaxNum];
-	char cwd[100];
+	char cwd[MaxNum];
 	std::list<std::string> parsedCwd;
   	std::list<std::string> parsedUserInput;
   
