@@ -156,7 +156,7 @@ int canonicalization(std::list<std::string> *parsedUserInput,
 	std::list<std::string>::iterator itt2 = itt;
 	std::list<std::string>::iterator cwdItt = parsedCwd->begin();
 
-	std::cout << "................ 1 Output from list: \n";
+	std::cout << "................ 1 Output from list, Directory Path:\n";
   	std::list<std::string>::iterator cwdIttt = parsedCwd->begin();
   	for(; cwdIttt != parsedCwd->end(); cwdIttt++)
     	std::cout << *cwdIttt << " \n";
