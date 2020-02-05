@@ -143,7 +143,7 @@ std::string toLowerCase(std::string input)
 
 /***********************************************************************
 * Function: canonicalization()
-* Inputs: list<String> by pointer UserInput, list<String> by pointer file 
+* Inputs: list<String> , pointer User Input, list<String> by pointer ,file 
 * path of executable 
 * first input userinput, second is the filepath of the Executable 
  **********************************************************************/
