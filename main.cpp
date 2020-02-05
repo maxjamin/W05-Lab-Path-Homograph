@@ -77,8 +77,9 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
   for(int i=0; i <= std::strlen(userInput); i++)
     {
       //std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
-      //if new / is encountered add new char array to list and set counter to zero
-      if((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput))
+      //if new / or \ is encountered add new char array to list and set counter to zero
+      if(((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput)) ||
+      	((userInput[i] == '\\' && counterForCopy != 0) || i == std::strlen(userInput)))
       {
 		std::string str(tempCopyArray, counterForCopy);
 
@@ -96,7 +97,7 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
 	
 	
       } //increment temp array if 1st [] isn't /
-      else if(userInput[i] != '/')
+      else if(userInput[i] != '/' || userInput[i] != '\\')
       {
 		tempCopyArray[counterForCopy] = userInput[i];
 		counterForCopy++;
