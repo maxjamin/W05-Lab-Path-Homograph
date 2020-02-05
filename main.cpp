@@ -135,25 +135,20 @@ std::string toLowerCase(std::string input)
 }
 
 /***********************************************************************
-
+*
+* first input userinput, second is the filepath of the Executable 
  **********************************************************************/
-int canonicalization(std::list<std::string> *parsedUserInput)
+int canonicalization(std::list<std::string> *parsedUserInput, 
+	std::list<std::string> *parsedCwd)
 {
-	char cwd[100];
-	std::list<std::string> parsedCwd;
-	getCurrentDirectory(cwd);
-	parseUserInput(cwd, &parsedCwd, 0);
-
-	printf("Current working dir: %s\n", cwd); 
-
 	//iterate through the list of userInput
 	std::list<std::string>::iterator itt = parsedUserInput->begin();
 	std::list<std::string>::iterator itt2 = itt;
-	std::list<std::string>::iterator cwdItt = parsedCwd.begin();
+	std::list<std::string>::iterator cwdItt = parsedCwd->begin();
 
 	std::cout << "................ 1 Output from list: \n";
-  	std::list<std::string>::iterator cwdIttt = parsedCwd.begin();
-  	for(; cwdIttt != parsedCwd.end(); cwdIttt++)
+  	std::list<std::string>::iterator cwdIttt = parsedCwd->begin();
+  	for(; cwdIttt != parsedCwd->end(); cwdIttt++)
     	std::cout << *cwdIttt << " \n";
 
   	LOOP:for(; itt != parsedUserInput->end(); itt++)
@@ -187,7 +182,6 @@ int canonicalization(std::list<std::string> *parsedUserInput)
   				}
   			}
   			cwdItt++;
-
   		}
   		else
   			//convert to lowerCase 
@@ -207,11 +201,19 @@ int canonicalization(std::list<std::string> *parsedUserInput)
 int main()
 {
 	char userInput[MaxNum];
+	char cwd[100];
+	std::list<std::string> parsedCwd;
   	std::list<std::string> parsedUserInput;
   
+  	//get user input, place into list<String>
   	getUserInput(userInput);
   	parseUserInput(userInput, &parsedUserInput, 1);
-  	canonicalization(&parsedUserInput);
+
+  	//get directory to test against, place into list<String>
+	getCurrentDirectory(cwd);
+	parseUserInput(cwd, &parsedCwd, 0);
+
+  	canonicalization(&parsedUserInput, &parsedCwd);
 
   	/*Testing output of userinput into list*/
   	std::cout << "..........Output from list: .......................\n";
