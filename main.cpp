@@ -68,7 +68,7 @@ int getUserInput(char *userInput)
 * Summary:
 *    Place userInputs into a list.  
  ************************************************************************/
-int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int pushDirection)
+int parseInput(char *userInput, std::list<std::string> *parsedUserInput, int pushDirection)
 {
 
   char tempCopyArray[MaxNum];
@@ -98,7 +98,6 @@ int parseUserInput(char *userInput, std::list<std::string> *parsedUserInput, int
 			tempCopyArray[x] = '\0';
 		}
 		counterForCopy = 0;
-	
 	
       }
       //increment temp array if 1st [] isn't /
@@ -193,7 +192,7 @@ int canonicalization(std::list<std::string> *parsedUserInput,
 *    main()
 * Inputs: none
 * Summary:
-*    Enter a brief description of the function.
+*    Driver function for the program.
  ************************************************************************/
 int main()
 {
@@ -204,11 +203,11 @@ int main()
   
   	//get user input, place into list<String>
   	getUserInput(userInput);
-  	parseUserInput(userInput, &parsedUserInput, 1);
+  	parseInput(userInput, &parsedUserInput, 1);
 
   	//get directory to test against, place into list<String>
 	getCurrentDirectory(cwd);
-	parseUserInput(cwd, &parsedCwd, 0);
+	parseInput(cwd, &parsedCwd, 0);
 
   	canonicalization(&parsedUserInput, &parsedCwd);
 
