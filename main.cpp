@@ -232,7 +232,7 @@ std::stack<std::string> canonicalization(std::string stringPath)
 		// Extract one word at a time
 		std::string word = "";
 		bool endOfWord = false;
-		while(!(stringPath[i] == '/' || (stringPath[i] == '\\' && stringPath[i + 1] == '\\')) && i <= stringPath.size())
+		while(!(stringPath[i] == '/' || stringPath[i] == '\\') && i <= stringPath.size())
 		{
 			word += stringPath[i];
 			i++;
