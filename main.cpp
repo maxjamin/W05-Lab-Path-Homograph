@@ -1,6 +1,7 @@
 #include <iostream>
 #include <unistd.h> 
 #include <list>
+#include <stack>
 #include <cstring>
 #include <string>
 #include <cctype>
@@ -68,7 +69,7 @@ int getUserInput(char *userInput)
 * Summary:
 *    Place userInputs into a list.  
  ************************************************************************/
-int parseInput(char *userInput, std::list<std::string> *parsedUserInput, int pushDirection)
+int parseInput(char *userInput, std::stack<std::string> *parsedUserInput, int pushDirection)
 {
 
   char tempCopyArray[MaxNum];
@@ -147,16 +148,63 @@ std::string toLowerCase(std::string input)
 }
 
 /***********************************************************************
+ * Function: isSameStack()
+ * Inputs: 2 stacks of strings
+ * Summary: Checks if two stacks are exactly the same
+ * Based on https://www.geeksforgeeks.org/check-if-the-two-given-stacks-are-same/
+ **********************************************************************/
+bool isSameStack(
+	std::stack<std::string> *parsedUserInput, 
+	std::stack<std::string> *parsedCwd)
+{
+	// If the stacks are not the same size
+	if (parsedUserInput.size() != parsedCwd.size())
+	{
+		// Return false
+		return false;
+	}
+
+	// Until the stacks are not empty, compare top of both stacks 
+    while (*parsedUserInput.empty() == false)
+	{ 
+        // If the top elements of both stacks are the same 
+        if (*parsedUserInput.top() == *parsedCwd.top())
+		{ 
+            // Pop top of both stacks 
+            *parsedUserInput.pop(); 
+            *parsedCwd.pop(); 
+        } 
+        else
+		{ 
+			// Otherwise return false
+            return false;
+        } 
+    } 
+
+	// If the program gets to this point, then the stacks are the same
+	return true;
+}
+
+/***********************************************************************
 * Function: canonicalization()
 * Inputs: list<String> , pointer User Input, list<String> by pointer ,file 
 * path of executable in list form
 * first input userinput, second is the filepath of the Executable 
  **********************************************************************/
-int canonicalization(std::list<std::string> *parsedUserInput, 
-	std::list<std::string> *parsedCwd)
+int canonicalization(
+	char userInput[],
+	char cwd[],
+	std::stack<std::string> *parsedUserInput, 
+	std::stack<std::string> *parsedCwd)
 {
-  	std::list<std::string>::reverse_iterator revIt;
-  	std::list<std::string>::iterator cwdItt = parsedCwd->begin();
+	//Parse userInput into stack
+	parseInput(userInput, &parsedUserInput, 1);
+
+	//Parse cwd into stack
+	parseInput(cwd, &parsedCwd, 0);
+
+  	std::stack<std::string>::reverse_iterator revIt;
+  	std::stack<std::string>::iterator cwdItt = parsedCwd->begin();
   	cwdItt++;
 
   	//loop backwards through parsedUserInput
@@ -198,18 +246,18 @@ int main()
 {
 	char userInput[MaxNum];
 	char cwd[MaxNum];
-	std::list<std::string> parsedCwd;
-  	std::list<std::string> parsedUserInput;
+	std::stack<std::string> parsedCwd;
+  	std::stack<std::string> parsedUserInput;
   
   	//get user input, place into list<String>
   	getUserInput(userInput);
-  	parseInput(userInput, &parsedUserInput, 1);
+  	// parseInput(userInput, &parsedUserInput, 1);
 
   	//get directory to test against, place into list<String>
 	getCurrentDirectory(cwd);
-	parseInput(cwd, &parsedCwd, 0);
+	// parseInput(cwd, &parsedCwd, 0);
 
-  	canonicalization(&parsedUserInput, &parsedCwd);
+  	canonicalization(userInput, cwd, &parsedUserInput, &parsedCwd);
 
   	/*Testing output of userinput into list*/
   	std::cout << "..........Output from list: .......................\n";
