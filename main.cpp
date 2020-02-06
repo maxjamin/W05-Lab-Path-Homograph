@@ -24,15 +24,28 @@
 
 /***********************************************************************
 * Function:
+*    CannonsTest()
+* Inputs:
+* Summary:
+*    Test cases for the cannocalization function
+ ************************************************************************/
+int CannonsTest()
+{
+	//
+  	return 0;
+}
+
+/***********************************************************************
+* Function:
 *    HomographsTest()
 * Inputs:
 * Summary:
-*    Enter a brief description of the function.
+*    Test cases for pairs of homographs
  ************************************************************************/
 int HomographsTest()
 {
-
-  return 0;
+	//
+  	return 0;
 }
 
 /***********************************************************************
@@ -40,12 +53,12 @@ int HomographsTest()
 *    NonHomographsTest()
 * Inputs:
 * Summary:
-*    Enter a brief description of the function.
+*    Test cases for pairs which are not homographs
  ************************************************************************/
 int NonHomographsTest()
 {
 
-  return 0;
+  	return 0;
 }
 
 /***********************************************************************
@@ -69,52 +82,49 @@ int getUserInput(char *userInput)
 * Summary:
 *    Place userInputs into a list.  
  ************************************************************************/
-int parseInput(char *userInput, std::stack<std::string> *parsedUserInput, int pushDirection)
-{
+// int parseInput(char *userInput, std::stack<std::string> *parsedUserInput, int pushDirection)
+// {
 
-  char tempCopyArray[MaxNum];
-  int counterForCopy = 0;
+//   char tempCopyArray[MaxNum];
+//   int counterForCopy = 0;
   
-  for(int i=0; i <= std::strlen(userInput); i++)
-    {
-      //std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
-      //if new / or \ is encountered add new char array to list and set counter to zero
-      if(((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput)) ||
-      	((userInput[i] == '\\' && counterForCopy != 0) || i == std::strlen(userInput)))
-      {
+//   for(int i=0; i <= std::strlen(userInput); i++)
+//     {
+//       //std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
+//       //if new / or \ is encountered add new char array to list and set counter to zero
+//       if(((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput)) ||
+//       	((userInput[i] == '\\' && counterForCopy != 0) || i == std::strlen(userInput)))
+//       {
 
-		std::string str(tempCopyArray, counterForCopy);
-		// If file path starts with / erase the char "/"
-		if(str[0] == '/')
-			str.erase(str.begin());
+// 		std::string str(tempCopyArray, counterForCopy);
+// 		// If file path starts with / erase the char "/"
+// 		if(str[0] == '/')
+// 			str.erase(str.begin());
 
-		if(pushDirection)
-			parsedUserInput->push_back(str);
-		else
-			parsedUserInput->push_front(str);
+// 		if(pushDirection)
+// 			parsedUserInput->push_back(str);
+// 		else
+// 			parsedUserInput->push_front(str);
 
-		//clean the temp array
-	    for(int x=0; x < std::strlen(tempCopyArray);x++)
-		{
-			tempCopyArray[x] = '\0';
-		}
-		counterForCopy = 0;
+// 		//clean the temp array
+// 	    for(int x=0; x < std::strlen(tempCopyArray);x++)
+// 		{
+// 			tempCopyArray[x] = '\0';
+// 		}
+// 		counterForCopy = 0;
 	
-      }
-      //increment temp array if 1st [] isn't /
-      else if(userInput[i] != '/' || userInput[i] != '\\')
-      {
-		tempCopyArray[counterForCopy] = userInput[i];
-		counterForCopy++;
-      }
-    }
+//       }
+//       //increment temp array if 1st [] isn't /
+//       else if(userInput[i] != '/' || userInput[i] != '\\')
+//       {
+// 		tempCopyArray[counterForCopy] = userInput[i];
+// 		counterForCopy++;
+//       }
+//     }
 
-   
-  
+//   	return 0;
+// }
 
-  
-  	return 0;
-}
 /***********************************************************************
 * Function: getCurrentDirectory
 * Inputs: char array by reference
@@ -132,6 +142,7 @@ int getCurrentDirectory(char (&cwd)[MaxNum])
    	}
   	return 0;
 } 
+
 /***********************************************************************
 * Function: toLowerCase()
 * Inputs: string 
@@ -148,31 +159,54 @@ std::string toLowerCase(std::string input)
 }
 
 /***********************************************************************
+* Function: printStack()
+* Inputs: stack of strings 
+* Summary: prints the contents of the stack
+ **********************************************************************/
+void printStack(std::stack<std::string> stack)
+{
+  	std::stack<std::string> displayStack;
+	while (stack.size() > 0)
+	{
+		displayStack.push(stack.top());
+		stack.pop();
+	}
+
+	// Print off stack for debugging
+	while (displayStack.size() > 0)
+	{
+		std::cout << displayStack.top() << " ";
+		displayStack.pop();
+	}
+	std::cout << std::endl;
+}
+
+/***********************************************************************
  * Function: isSameStack()
  * Inputs: 2 stacks of strings
  * Summary: Checks if two stacks are exactly the same
  * Based on https://www.geeksforgeeks.org/check-if-the-two-given-stacks-are-same/
  **********************************************************************/
 bool isSameStack(
-	std::stack<std::string> *parsedUserInput, 
-	std::stack<std::string> *parsedCwd)
+	std::stack<std::string> input, 
+	std::stack<std::string> path)
 {
 	// If the stacks are not the same size
-	if (parsedUserInput.size() != parsedCwd.size())
+	if (input.size() != path.size())
 	{
 		// Return false
 		return false;
 	}
 
 	// Until the stacks are not empty, compare top of both stacks 
-    while (*parsedUserInput.empty() == false)
+    while (input.empty() == false)
 	{ 
         // If the top elements of both stacks are the same 
-        if (*parsedUserInput.top() == *parsedCwd.top())
+        if (input.top() == path.top())
 		{ 
             // Pop top of both stacks 
-            *parsedUserInput.pop(); 
-            *parsedCwd.pop(); 
+            input.pop(); 
+            path.pop(); 
         } 
         else
 		{ 
@@ -187,52 +221,65 @@ bool isSameStack(
 
 /***********************************************************************
 * Function: canonicalization()
-* Inputs: list<String> , pointer User Input, list<String> by pointer ,file 
-* path of executable in list form
-* first input userinput, second is the filepath of the Executable 
+* Inputs: String stringPath
  **********************************************************************/
-int canonicalization(
-	char userInput[],
-	char cwd[],
-	std::stack<std::string> *parsedUserInput, 
-	std::stack<std::string> *parsedCwd)
+std::stack<std::string> canonicalization(std::string stringPath)
 {
-	//Parse userInput into stack
-	parseInput(userInput, &parsedUserInput, 1);
+	std::stack<std::string> parsedPath;
 
-	//Parse cwd into stack
-	parseInput(cwd, &parsedCwd, 0);
-
-  	std::stack<std::string>::reverse_iterator revIt;
-  	std::stack<std::string>::iterator cwdItt = parsedCwd->begin();
-  	cwdItt++;
-
-  	//loop backwards through parsedUserInput
-  	for (revIt = parsedUserInput->rbegin(); 
-  		revIt != parsedUserInput->rend(); revIt++)
+	for (int i=0; i <= stringPath.size();)
 	{
-		//Replace all iterators with the value ".." from parsedCwd list
-		if(*revIt == "..")
+		// Extract one word at a time
+		std::string word = "";
+		bool endOfWord = false;
+		while(!(stringPath[i] == '/' || (stringPath[i] == '\\' && stringPath[i + 1] == '\\')) && i <= stringPath.size())
 		{
-			std::cout << "revit is " << *revIt << "\n";
-			*revIt = *cwdItt;
-			cwdItt++;
+			word += stringPath[i];
+			i++;
 		}
-		//Remove all "."
-		else if(*revIt == ".")
-  		{
-  			/*After research of erase function w/ reverse iterator
-  			from https://stackoverflow.com/questions/1830158/how-to-call-erase-with-a-reverse-iterator*/
-  			parsedUserInput->erase( --(revIt.base()));
-  			
-  		}
-  		else //convert iterators with Upper letters to lowerCase 
-  		{	
-  			std::string tempString = *revIt;
-  			*revIt = toLowerCase(tempString);
-  		}
+
+		if (word != "")
+		{
+			// Make the word lowercase
+			word = toLowerCase(word);
+
+			if (word == ".")
+			{
+				// Do nothing
+			}
+			else if (word == "..")
+			{
+				// Pop last word off the stack
+				if (parsedPath.size() != 0)
+					parsedPath.pop();
+			}
+			else if (word == "...")
+			{
+				// Pop last two words off the stack
+				if (parsedPath.size() != 0)
+					parsedPath.pop();
+				if (parsedPath.size() != 0)
+					parsedPath.pop();
+			}
+			else if (word == "~")
+			{
+				// TODO: Empty whole stack?
+			}
+			else
+			{
+				// Push word onto stack
+				parsedPath.push(word);
+			}
+		}
+
+		// Skip the slashes to begin the next word
+		while (i <= stringPath.size() && (stringPath[i] == '/' || stringPath[i] == '\\'))
+		{
+			i++;
+		}
 	}
-	return 0;
+
+	return parsedPath;
 }
 
 /***********************************************************************
@@ -246,30 +293,34 @@ int main()
 {
 	char userInput[MaxNum];
 	char cwd[MaxNum];
-	std::stack<std::string> parsedCwd;
-  	std::stack<std::string> parsedUserInput;
+	// std::stack<std::string> parsedCwd;
+  	// std::stack<std::string> parsedUserInput;
   
   	//get user input, place into list<String>
   	getUserInput(userInput);
-  	// parseInput(userInput, &parsedUserInput, 1);
 
   	//get directory to test against, place into list<String>
 	getCurrentDirectory(cwd);
-	// parseInput(cwd, &parsedCwd, 0);
 
-  	canonicalization(userInput, cwd, &parsedUserInput, &parsedCwd);
+  	std::stack<std::string> parsedInput = canonicalization(std::string(userInput));
+	std::stack<std::string> parsedPath = canonicalization(forbiddenPath);
 
-  	/*Testing output of userinput into list*/
-  	std::cout << "..........Output from list: .......................\n";
-  	std::list<std::string>::iterator itt = parsedUserInput.begin();
-  	for(; itt != parsedUserInput.end(); itt++)
-    	std::cout << *itt << " \n";
+  	// /*Testing output of userinput into list*/
+  	// std::cout << "..........Output from list: .......................\n";
+  	// std::list<std::string>::iterator itt = parsedUserInput.begin();
+  	// for(; itt != parsedUserInput.end(); itt++)
+    // 	std::cout << *itt << " \n";
 
-    /*Forbidden file path..*/
-    std::cout << "Forbidden file path " << forbiddenPath << "\n";
+    // /*Forbidden file path..*/
+    // std::cout << "Forbidden file path " << forbiddenPath << "\n";
 
+	
+	// Print off stack for debugging
+	printStack(parsedInput);
+	printStack(parsedPath);
 
     //check if input against homoHomograph and non-Homograph function
+	bool isHomograph = isSameStack(parsedInput, parsedPath);
 
   	return 0;
 }
