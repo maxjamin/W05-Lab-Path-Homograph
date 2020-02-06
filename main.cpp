@@ -291,25 +291,37 @@ std::stack<std::string> canonicalization(std::string stringPath)
  ************************************************************************/
 int main()
 {
-	char userInput[MaxNum];
-	char cwd[MaxNum];
-	// std::stack<std::string> parsedCwd;
-  	// std::stack<std::string> parsedUserInput;
-  
-  	//get user input, place into list<String>
-  	getUserInput(userInput);
+   char userInput[MaxNum];
+   char cwd[MaxNum];
 
-  	//get directory to test against, place into list<String>
-	getCurrentDirectory(cwd);
+   std::list<std::string> parsedCwd;
+   std::list<std::string> parsedUserInput;
 
-  	std::stack<std::string> parsedInput = canonicalization(std::string(userInput));
-	std::stack<std::string> parsedPath = canonicalization(forbiddenPath);
+   //get user input, place into list<String>
+   getUserInput(userInput);
+   std::string fullPath(userInput);
 
-  	// /*Testing output of userinput into list*/
-  	// std::cout << "..........Output from list: .......................\n";
-  	// std::list<std::string>::iterator itt = parsedUserInput.begin();
-  	// for(; itt != parsedUserInput.end(); itt++)
-    // 	std::cout << *itt << " \n";
+   // expand the ~ into user's home directory
+   if (userInput[0] == '~')
+   {
+      // TODO get home directory
+   }
+   // if userInput is a relative path, append the working directory
+   else if (userInput[0] != '/')
+   {
+      getCurrentDirectory(cwd);
+      fullPath += (std::string)cwd;
+   }
+   // else: do nothing, fullPath already contains the full path
+
+   std::stack<std::string> parsedInput = canonicalization(std::string(fullPath));
+   std::stack<std::string> parsedPath = canonicalization(forbiddenPath);
+
+   /*Testing output of userinput into list*/
+   std::cout << "..........Output from list: .......................\n";
+   std::list<std::string>::iterator itt = parsedUserInput.begin();
+   for(; itt != parsedUserInput.end(); itt++)
+      std::cout << *itt << " \n";
 
     // /*Forbidden file path..*/
     // std::cout << "Forbidden file path " << forbiddenPath << "\n";
@@ -322,5 +334,6 @@ int main()
     //check if input against homoHomograph and non-Homograph function
 	bool isHomograph = isSameStack(parsedInput, parsedPath);
 
-  	return 0;
+   return 0;
+
 }
