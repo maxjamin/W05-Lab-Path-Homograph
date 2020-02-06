@@ -15,7 +15,7 @@
 * Author:
 *    John Miller
 *    Bretton Steiner
-*	 Ben Smith
+*    Ben Smith
 *    Tyler Starr
 *
 * Summary:
