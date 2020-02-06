@@ -196,26 +196,36 @@ int canonicalization(std::list<std::string> *parsedUserInput,
  ************************************************************************/
 int main()
 {
-	char userInput[MaxNum];
-	char cwd[MaxNum];
-	std::list<std::string> parsedCwd;
-  	std::list<std::string> parsedUserInput;
-  
-  	//get user input, place into list<String>
-  	getUserInput(userInput);
-  	parseInput(userInput, &parsedUserInput, 1);
+   char userInput[MaxNum];
+   char cwd[MaxNum];
 
-  	//get directory to test against, place into list<String>
-	getCurrentDirectory(cwd);
-	parseInput(cwd, &parsedCwd, 0);
+   std::list<std::string> parsedCwd;
+   std::list<std::string> parsedUserInput;
 
-  	canonicalization(&parsedUserInput, &parsedCwd);
+   //get user input, place into list<String>
+   getUserInput(userInput);
+   std::string fullPath(userInput);
 
-  	/*Testing output of userinput into list*/
-  	std::cout << "..........Output from list: .......................\n";
-  	std::list<std::string>::iterator itt = parsedUserInput.begin();
-  	for(; itt != parsedUserInput.end(); itt++)
-    	std::cout << *itt << " \n";
+   // expand the ~ into user's home directory
+   if (userInput[0] == '~')
+   {
+      // TODO get home directory
+   }
+   // if userInput is a relative path, append the working directory
+   else if (userInput[0] != '/')
+   {
+      getCurrentDirectory(cwd);
+      fullPath += (std::string)cwd;
+   }
+   // else: do nothing, fullPath already contains the full path
+
+   canonicalization(fullPath);
+
+   /*Testing output of userinput into list*/
+   std::cout << "..........Output from list: .......................\n";
+   std::list<std::string>::iterator itt = parsedUserInput.begin();
+   for(; itt != parsedUserInput.end(); itt++)
+      std::cout << *itt << " \n";
 
     /*Forbidden file path..*/
     std::cout << "Forbidden file path " << forbiddenPath << "\n";
@@ -223,5 +233,6 @@ int main()
 
     //check if input against homoHomograph and non-Homograph function
 
-  	return 0;
+   return 0;
+
 }
