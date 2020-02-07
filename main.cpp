@@ -35,6 +35,22 @@ bool isSameStack(
 	// If the stacks are not the same size
 	if (input.size() != path.size())
 	{
+		/*std::cout << "Size s1 = " << input.size() << "; size s2 = " << path.size() << '\n';
+
+		while (!(input.empty() && path.empty()))
+		{
+			if (!input.empty())
+			{
+				std::cout << "Input: " << input.top() << '\n';
+				input.pop();
+			}
+			if (!path.empty())
+			{
+				std::cout << "Path: " << path.top() << '\n';
+				path.pop();
+			}
+		}*/
+
 		// Return false
 		return false;
 	}
@@ -125,7 +141,13 @@ void printStack(std::stack<std::string> stack)
 	// Print off stack for debugging
 	while (displayStack.size() > 0)
 	{
-		std::cout << displayStack.top() << " ";
+		if (displayStack.top() == "")
+			std::cout << "- ";
+
+		else if (displayStack.top() == " ")
+			std::cout << ". ";
+		else
+			std::cout << displayStack.top() << " ";
 		displayStack.pop();
 	}
 	std::cout << std::endl;
@@ -150,7 +172,7 @@ std::stack<std::string> canonicalization(std::string stringPath)
 			i++;
 		}
 
-		if (word != "")
+		if (word.empty())
 		{
 			// Make the word lowercase
 			word = toLowerCase(word);
@@ -220,11 +242,14 @@ void HomographsTest()
         return ;
     }
 
+	printStack(c2);
+
     std::cout << "Test 2\nVerify that cannonicalization can handle filepaths with \"../\"\n";
     testString = "test/filepathtest/../filepathtest/testing";
 
     std::cout << testString << std::endl << testAgainst << std::endl;
     c1 = canonicalization(testString);
+	printStack(c1);
     if(isSameStack(c1,c2))
         std::cout << "Cannonicalization test A Success\n\n";
     else{
@@ -236,6 +261,8 @@ void HomographsTest()
 
     std::cout << testString << std::endl << testAgainst << std::endl;
     c1 = canonicalization(testString);
+
+	printStack(c1);
     if(isSameStack(c1,c2))
         std::cout << "Cannonicalization test B Success\n\n";
     else{
