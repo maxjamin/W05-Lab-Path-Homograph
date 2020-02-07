@@ -161,6 +161,22 @@ std::stack<std::string> canonicalization(std::string stringPath)
 {
 	std::stack<std::string> parsedPath;
 
+	if (stringPath[0] == '/')
+	{
+		// This is an absolute path.
+		// The stringPath contains the entire filepath to check
+	}
+	else if (stringPath[0] == '~')
+	{
+		// This is a relative path starting from the user's HOME directory.
+		// Paste the HOME directory in before the stringPath
+	}
+	else
+	{
+		// This is a relative path starting from the current working directory.
+		// Paste that in front of the stringPath
+	}
+
 	for (int i=0; i <= stringPath.size();)
 	{
 		// Extract one word at a time
@@ -326,9 +342,9 @@ void NonHomographsTest()
     testStack2.push("1");
     testStack2.push("2");
     testStack2.push("3");
-    testStack1.push("a");
-    testStack1.push("b");
-    testStack1.push("c");
+    testStack3.push("a");
+    testStack3.push("b");
+    testStack3.push("c");
 
     if(isSameStack(testStack1,testStack2) && !isSameStack(testStack1,testStack3))
         std::cout << "Success - isSameStack is functioning properly. Canon can be compared.\n";
@@ -340,21 +356,11 @@ void NonHomographsTest()
     testString = "test/filepath.test/testing/";
     std::string testAgainst = "test/filepathtest/testing/";
 
-    std::cout << "Test 3\nVerify that cannonicalization can recognize";
-    std::cout << "when a \".\" is not part of filepath\n";
-    std::cout << testString << std::endl << testAgainst << std::endl;
     std::stack<std::string> c1 = canonicalization(testString);
     std::stack<std::string> c2 = canonicalization(testAgainst);
-    if(!isSameStack(c1,c2))
-        std::cout << "Cannonicalization test Success - non homograph\n\n";
-    else{
-        std::cout << "Cannonicalization test Failure\n\n";
-        return ;
-    }
-
     testString = "test/notsamepathtest/testing/";
 
-    std::cout << "Test 4\nVerify that cannonicalization can recognize";
+    std::cout << "Test 3\nVerify that cannonicalization can recognize";
     std::cout << "when a paths not homographs\n";
     std::cout << testString << std::endl << testAgainst << std::endl;
     c1 = canonicalization(testString);
