@@ -23,42 +23,41 @@
  ************************************************************************/
 
 /***********************************************************************
-* Function:
-*    CannonsTest()
-* Inputs:
-* Summary:
-*    Test cases for the cannocalization function
- ************************************************************************/
-int CannonsTest()
+ * Function: isSameStack()
+ * Inputs: 2 stacks of strings
+ * Summary: Checks if two stacks are exactly the same
+ * Based on https://www.geeksforgeeks.org/check-if-the-two-given-stacks-are-same/
+ **********************************************************************/
+bool isSameStack(
+	std::stack<std::string> input, 
+	std::stack<std::string> path)
 {
-	//
-  	return 0;
-}
+	// If the stacks are not the same size
+	if (input.size() != path.size())
+	{
+		// Return false
+		return false;
+	}
 
-/***********************************************************************
-* Function:
-*    HomographsTest()
-* Inputs:
-* Summary:
-*    Test cases for pairs of homographs
- ************************************************************************/
-int HomographsTest()
-{
-	//
-  	return 0;
-}
+	// Until the stacks are not empty, compare top of both stacks 
+    while (input.empty() == false)
+	{ 
+        // If the top elements of both stacks are the same 
+        if (input.top() == path.top())
+		{ 
+            // Pop top of both stacks 
+            input.pop(); 
+            path.pop(); 
+        } 
+        else
+		{ 
+			// Otherwise return false
+            return false;
+        } 
+    } 
 
-/***********************************************************************
-* Function:
-*    NonHomographsTest()
-* Inputs:
-* Summary:
-*    Test cases for pairs which are not homographs
- ************************************************************************/
-int NonHomographsTest()
-{
-
-  	return 0;
+	// If the program gets to this point, then the stacks are the same
+	return true;
 }
 
 /***********************************************************************
@@ -68,62 +67,13 @@ int NonHomographsTest()
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-int getUserInput(char *userInput)
+std::string getUserInput()
 {
+  std::string userInput;
   std::cout << "Please enter a filepath: ";
   std::cin>> userInput;
-  return 0;
+  return userInput;
 }
-
-/***********************************************************************
-* Function:
-*    ParseUserInput()
-* Inputs: char pointer, list<String> by pointer, int Direct of traversal for pushing onto the list
-* Summary:
-*    Place userInputs into a list.  
- ************************************************************************/
-// int parseInput(char *userInput, std::stack<std::string> *parsedUserInput, int pushDirection)
-// {
-
-//   char tempCopyArray[MaxNum];
-//   int counterForCopy = 0;
-  
-//   for(int i=0; i <= std::strlen(userInput); i++)
-//     {
-//       //std::cout << userInput[i] << " " << std::strlen(userInput) << "\n";
-//       //if new / or \ is encountered add new char array to list and set counter to zero
-//       if(((userInput[i] == '/' && counterForCopy != 0) || i == std::strlen(userInput)) ||
-//       	((userInput[i] == '\\' && counterForCopy != 0) || i == std::strlen(userInput)))
-//       {
-
-// 		std::string str(tempCopyArray, counterForCopy);
-// 		// If file path starts with / erase the char "/"
-// 		if(str[0] == '/')
-// 			str.erase(str.begin());
-
-// 		if(pushDirection)
-// 			parsedUserInput->push_back(str);
-// 		else
-// 			parsedUserInput->push_front(str);
-
-// 		//clean the temp array
-// 	    for(int x=0; x < std::strlen(tempCopyArray);x++)
-// 		{
-// 			tempCopyArray[x] = '\0';
-// 		}
-// 		counterForCopy = 0;
-	
-//       }
-//       //increment temp array if 1st [] isn't /
-//       else if(userInput[i] != '/' || userInput[i] != '\\')
-//       {
-// 		tempCopyArray[counterForCopy] = userInput[i];
-// 		counterForCopy++;
-//       }
-//     }
-
-//   	return 0;
-// }
 
 /***********************************************************************
 * Function: getCurrentDirectory
@@ -179,44 +129,6 @@ void printStack(std::stack<std::string> stack)
 		displayStack.pop();
 	}
 	std::cout << std::endl;
-}
-
-/***********************************************************************
- * Function: isSameStack()
- * Inputs: 2 stacks of strings
- * Summary: Checks if two stacks are exactly the same
- * Based on https://www.geeksforgeeks.org/check-if-the-two-given-stacks-are-same/
- **********************************************************************/
-bool isSameStack(
-	std::stack<std::string> input, 
-	std::stack<std::string> path)
-{
-	// If the stacks are not the same size
-	if (input.size() != path.size())
-	{
-		// Return false
-		return false;
-	}
-
-	// Until the stacks are not empty, compare top of both stacks 
-    while (input.empty() == false)
-	{ 
-        // If the top elements of both stacks are the same 
-        if (input.top() == path.top())
-		{ 
-            // Pop top of both stacks 
-            input.pop(); 
-            path.pop(); 
-        } 
-        else
-		{ 
-			// Otherwise return false
-            return false;
-        } 
-    } 
-
-	// If the program gets to this point, then the stacks are the same
-	return true;
 }
 
 /***********************************************************************
@@ -284,6 +196,154 @@ std::stack<std::string> canonicalization(std::string stringPath)
 
 /***********************************************************************
 * Function:
+*    HomographsTest()
+* Inputs:nil
+* Summary:
+*    This function serves as a test case for canonicalization
+************************************************************************/
+void HomographsTest()
+{
+    std::cout << "Homograph Test\n\n";
+
+    std::string testString = "test/././filepathtest/testing/";
+    std::string testAgainst = "test/filepathtest/testing/";
+    //Test . handling .. handling ... handling ~ handling
+
+    std::cout << "Test 1\nVerify that cannonicalization can handle filepaths with \"./\"\n";
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    std::stack<std::string> c1 = canonicalization(testString);
+    std::stack<std::string> c2 = canonicalization(testAgainst);
+    if(isSameStack(c1,c2))
+        std::cout << "Cannonicalization test Success\n\n";
+    else{
+        std::cout << "Cannonicalization test Failure\n\n";
+        return ;
+    }
+
+    std::cout << "Test 2\nVerify that cannonicalization can handle filepaths with \"../\"\n";
+    testString = "test/filepathtest/../filepathtest/testing";
+
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    c1 = canonicalization(testString);
+    if(isSameStack(c1,c2))
+        std::cout << "Cannonicalization test A Success\n\n";
+    else{
+        std::cout << "Cannonicalization test A Failure\n\n";
+        return ;
+    }
+
+    testString = "../../../test/filepathtest/testing/";
+
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    c1 = canonicalization(testString);
+    if(isSameStack(c1,c2))
+        std::cout << "Cannonicalization test B Success\n\n";
+    else{
+        std::cout << "Cannonicalization test B Failure\n\n";
+        return ;
+    }
+
+    std::cout << "Test 3\nVerify that cannonicalization can handle filepaths with \".../\"\n";
+    testString = "test/filepathtest/.../test/filepathtest/testing";
+
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    c1 = canonicalization(testString);
+    if(isSameStack(c1,c2))
+        std::cout << "Cannonicalization test A Success\n\n";
+    else{
+        std::cout << "Cannonicalization test A Failure\n\n";
+        return ;
+    }
+
+    testString = "test/.../test/filepathtest/testing/";
+
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    c1 = canonicalization(testString);
+    if(isSameStack(c1,c2))
+        std::cout << "Cannonicalization test B Success\n\n";
+    else{
+        std::cout << "Cannonicalization test B Failure\n\n";
+        return ;
+    }
+
+    //cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
+
+    return ;
+}
+ 
+/***********************************************************************
+* Function:
+*    NonHomographsTest()
+* Inputs:
+* Summary:
+*    These are test cases to make sure that non homographs are not accidentally
+*    called homographs by the canonicalization function and tests other functions
+************************************************************************/
+void NonHomographsTest()
+{
+    std::cout << "Non-Homograph Test\n\n";
+
+    std::cout << "Test 1\nVerify that user input is accepted\n";
+    std::string testString = getUserInput();
+
+    if(testString.length() != 0)
+    std::cout << "Successfully grabbed user input\n";
+
+    std::cout << "Test 2\n ensure that isSameStack functions properly\n";
+    std::stack<std::string> testStack1;
+    std::stack<std::string> testStack2;
+    std::stack<std::string> testStack3;
+    testStack1.push("1");
+    testStack1.push("2");
+    testStack1.push("3");
+    testStack2.push("1");
+    testStack2.push("2");
+    testStack2.push("3");
+    testStack1.push("a");
+    testStack1.push("b");
+    testStack1.push("c");
+
+    if(isSameStack(testStack1,testStack2) && !isSameStack(testStack1,testStack3))
+        std::cout << "Success - isSameStack is functioning properly. Canon can be compared.\n";
+    else{
+        std::cout << "Failure. isSameStack can not compare stack Canons.\n";
+        return;
+    }
+
+    testString = "test/filepath.test/testing/";
+    std::string testAgainst = "test/filepathtest/testing/";
+
+    std::cout << "Test 3\nVerify that cannonicalization can recognize";
+    std::cout << "when a \".\" is not part of filepath\n";
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    std::stack<std::string> c1 = canonicalization(testString);
+    std::stack<std::string> c2 = canonicalization(testAgainst);
+    if(!isSameStack(c1,c2))
+        std::cout << "Cannonicalization test Success - non homograph\n\n";
+    else{
+        std::cout << "Cannonicalization test Failure\n\n";
+        return ;
+    }
+
+    testString = "test/notsamepathtest/testing/";
+
+    std::cout << "Test 4\nVerify that cannonicalization can recognize";
+    std::cout << "when a paths not homographs\n";
+    std::cout << testString << std::endl << testAgainst << std::endl;
+    c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
+    if(!isSameStack(c1,c2))
+        std::cout << "Cannonicalization test Success - non homograph\n\n";
+    else{
+        std::cout << "Cannonicalization test Failure\n\n";
+        return ;
+    }
+
+    return ;
+}
+
+/***********************************************************************
+* Function:
 *    main()
 * Inputs: none
 * Summary:
@@ -291,49 +351,51 @@ std::stack<std::string> canonicalization(std::string stringPath)
  ************************************************************************/
 int main()
 {
-   char userInput[MaxNum];
-   char cwd[MaxNum];
+//    std::string userInput;
+//    char cwd[MaxNum];
 
-   std::list<std::string> parsedCwd;
-   std::list<std::string> parsedUserInput;
+//    std::list<std::string> parsedCwd;
+//    std::list<std::string> parsedUserInput;
 
-   //get user input, place into list<String>
-   getUserInput(userInput);
-   std::string fullPath(userInput);
+//    //get user input, place into list<String>
+//    userInput = getUserInput();
+//    std::string fullPath(userInput);
 
-   // expand the ~ into user's home directory
-   if (userInput[0] == '~')
-   {
-      // TODO get home directory
-   }
-   // if userInput is a relative path, append the working directory
-   else if (userInput[0] != '/')
-   {
-      getCurrentDirectory(cwd);
-      fullPath += (std::string)cwd;
-   }
-   // else: do nothing, fullPath already contains the full path
+//    // expand the ~ into user's home directory
+//    if (userInput[0] == '~')
+//    {
+//       // TODO get home directory
+//    }
+//    // if userInput is a relative path, append the working directory
+//    else if (userInput[0] != '/')
+//    {
+//       getCurrentDirectory(cwd);
+//       fullPath += (std::string)cwd;
+//    }
+//    // else: do nothing, fullPath already contains the full path
 
-   std::stack<std::string> parsedInput = canonicalization(std::string(fullPath));
-   std::stack<std::string> parsedPath = canonicalization(forbiddenPath);
+//    std::stack<std::string> parsedInput = canonicalization(std::string(fullPath));
+//    std::stack<std::string> parsedPath = canonicalization(forbiddenPath);
 
-   /*Testing output of userinput into list*/
-   std::cout << "..........Output from list: .......................\n";
-   std::list<std::string>::iterator itt = parsedUserInput.begin();
-   for(; itt != parsedUserInput.end(); itt++)
-      std::cout << *itt << " \n";
+//    /*Testing output of userinput into list*/
+//    std::cout << "..........Output from list: .......................\n";
+//    std::list<std::string>::iterator itt = parsedUserInput.begin();
+//    for(; itt != parsedUserInput.end(); itt++)
+//       std::cout << *itt << " \n";
 
-    // /*Forbidden file path..*/
-    // std::cout << "Forbidden file path " << forbiddenPath << "\n";
+//     // /*Forbidden file path..*/
+//     // std::cout << "Forbidden file path " << forbiddenPath << "\n";
 
 	
-	// Print off stack for debugging
-	printStack(parsedInput);
-	printStack(parsedPath);
+// 	// Print off stack for debugging
+// 	printStack(parsedInput);
+// 	printStack(parsedPath);
 
-    //check if input against homoHomograph and non-Homograph function
-	bool isHomograph = isSameStack(parsedInput, parsedPath);
+//     //check if input against homoHomograph and non-Homograph function
+// 	bool isHomograph = isSameStack(parsedInput, parsedPath);
 
-   return 0;
+    HomographsTest();
+    NonHomographsTest();
 
+    return 0;
 }
