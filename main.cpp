@@ -301,7 +301,7 @@ stack<string> canonicalization(string stringPath)
 * Summary:
 *    This function serves as a test case for canonicalization
 ************************************************************************/
-void HomographsTest()
+void HomographsTest(int testNumber)
 {
     cout << "Homograph Test\n\n";
 
@@ -309,10 +309,13 @@ void HomographsTest()
     string testAgainst = "test/filepathtest/testing/";
     //Test . handling .. handling ... handling ~ handling
 
+    stack<string> c1 = canonicalization(testString);
+	stack<string> c2 = canonicalization(testAgainst);
+
+    if(testNumber == 3)
+    {
 	    cout << "Test 1\nVerify that canonicalization can handle filepaths with \"./\"\n";
 	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-	    stack<string> c1 = canonicalization(testString);
-	    stack<string> c2 = canonicalization(testAgainst);
 	    if(isSameStack(c1,c2))
 	        cout << "\tCanonicalization test Success\n\n";
 	    else{
@@ -320,7 +323,9 @@ void HomographsTest()
 	    }
 
 		printStack(c2);
-
+	}
+	else if(testNumber == 4)
+	{
 	    cout << "Test 2\nVerify that canonicalization can handle filepaths with \"../\"\n";
 	    testString = "test/filepathtest/../filepathtest/testing";
 
@@ -342,7 +347,9 @@ void HomographsTest()
 	    else{
 	        cout << "\tCanonicalization test B Failure\n\n";
 	    }
-
+	}
+	else if(testNumber == 5)
+	{
 	    cout << "Test 3\nVerify that canonicalization can handle filepaths with \".../\"\n";
 	    testString = "test/filepathtest/.../test/filepathtest/testing";
 	    testAgainst = "test/filepathtest/testing/";
@@ -365,7 +372,9 @@ void HomographsTest()
 	    else{
 	        cout << "\tCanonicalization test B Failure\n\n";
 	    }
-
+	}
+	else if(testNumber == 6)
+	{
 	    cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
 	    testString = "~/test/something";
 	    string homeDir = getUserInput("Please input your home directory path: ");
@@ -379,7 +388,9 @@ void HomographsTest()
 	        cout << "\tCannonicalization test A Failure\n\n";
 	    }
 
-
+	}
+	else if(testNumber == 7)
+	{
 	    cout << "Test 5\nVerify that canonicalization can handle filepaths from the current directory\n";
 	    testString = "test/filepathtest/testing";
 	    string currentDir = getUserInput("Please input your current directory path: ");
@@ -392,7 +403,9 @@ void HomographsTest()
 	    else{
 	        cout << "\tFAILURE: The current directory is not correctly accounted for.\n\n";
 	    }
-
+	}
+	else if(testNumber == 8)
+	{
 	    cout << "Test 6\nVerify that canonicalization can handle direct filepaths\n";
 	    testString = "/test/./filepathtest/testing";
 	    testAgainst = "/test/filepathtest/testing";
@@ -404,7 +417,7 @@ void HomographsTest()
 	    else{
 	        cout << "\tFAILURE: Direct paths are not correctly accounted for.\n\n";
 	    }
-
+	}
 	    return ;
 }
 
@@ -417,10 +430,12 @@ void HomographsTest()
 *    These are test cases to make sure that non homographs are not accidentally
 *    called homographs by the canonicalization function and tests other functions
 ************************************************************************/
-void NonHomographsTest()
+void NonHomographsTest(int testNumber)
 {
 	    cout << "Non-Homograph Test\n\n";
 
+	if(testNumber == 1)
+	{    
 	    cout << "Test 1\nEnsure that isSameStack functions properly\n";
 	    stack<string> testStack1;
 	    stack<string> testStack2;
@@ -441,9 +456,11 @@ void NonHomographsTest()
 	        cout << "\tFailure. isSameStack can not compare stack Canons.\n\n";
 	    }
 
-	    string testString = "test/notsamepathtest/testing/";
+	}
+	else
+	{
+		string testString = "test/notsamepathtest/testing/";
 	    string testAgainst = "test/filepathtest/testing/";
-
 	    stack<string> c1 = canonicalization(testString);
 	    stack<string> c2 = canonicalization(testAgainst);
 
@@ -455,6 +472,7 @@ void NonHomographsTest()
 	    else{
 	        cout << "\tCanonicalization test Failure\n\n";
 	    }
+	}
 
 	    return ;
 }
@@ -469,9 +487,18 @@ void NonHomographsTest()
 int main()
 {
 	int exit = 1;
+
 	while(exit){
-    	HomographsTest();
-    	NonHomographsTest();
+		std::cout << "Please enter a number from 1-6 for the tests: \n";
+		cin >> exit;
+
+    	if(exit >= 3 && exit <= 8)
+    		HomographsTest(exit);
+    	else if(exit == 1 || exit == 2)
+    		NonHomographsTest(exit);
+
+    	cin.clear();
+      	cin.ignore(10000,'\n');
 	}
     return 0;
 }
