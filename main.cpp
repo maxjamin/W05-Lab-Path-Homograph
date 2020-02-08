@@ -36,6 +36,13 @@ bool isSameStack(
 	stack<string> input, 
 	stack<string> path)
 {
+	// First check
+	if (input.size() == 0 || path.size() == 0)
+	{
+		cout << "ERROR: canonicalization is returning stack of size 0\n";
+		return false;
+	}
+
 	// If the stacks are not the same size
 	if (input.size() != path.size())
 	{
@@ -63,7 +70,7 @@ bool isSameStack(
     while (input.empty() == false)
 	{ 
         // If the top elements of both stacks are the same 
-        if (input.top() == path.top())
+        if (input.top().compare(path.top()) == 0)
 		{ 
             // Pop top of both stacks 
             input.pop(); 
@@ -218,7 +225,7 @@ stack<string> canonicalization(string stringPath)
 			i++;
 		}
 
-		if (word.empty())
+		if (!word.empty())
 		{
 			// Make the word lowercase
 			word = toLowerCase(word);
