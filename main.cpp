@@ -489,7 +489,7 @@ int main()
 	int exit = 1;
 
 	while(exit){
-		std::cout << "Please enter a number from 1-6 for the tests: \n";
+		std::cout << "Please enter a number from 1-6 for the tests 1-2 NonHomographs Test & 3-8 Homograph test, 0 to exit: \n";
 		cin >> exit;
 
     	if(exit >= 3 && exit <= 8)
