@@ -309,103 +309,103 @@ void HomographsTest()
     string testAgainst = "test/filepathtest/testing/";
     //Test . handling .. handling ... handling ~ handling
 
-    cout << "Test 1\nVerify that canonicalization can handle filepaths with \"./\"\n";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    stack<string> c1 = canonicalization(testString);
-    stack<string> c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tCanonicalization test Success\n\n";
-    else{
-        cout << "\tCanonicalization test Failure\n\n";
-    }
+	    cout << "Test 1\nVerify that canonicalization can handle filepaths with \"./\"\n";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    stack<string> c1 = canonicalization(testString);
+	    stack<string> c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tCanonicalization test Success\n\n";
+	    else{
+	        cout << "\tCanonicalization test Failure\n\n";
+	    }
 
-	printStack(c2);
+		printStack(c2);
 
-    cout << "Test 2\nVerify that canonicalization can handle filepaths with \"../\"\n";
-    testString = "test/filepathtest/../filepathtest/testing";
+	    cout << "Test 2\nVerify that canonicalization can handle filepaths with \"../\"\n";
+	    testString = "test/filepathtest/../filepathtest/testing";
 
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    if(isSameStack(c1,c2))
-        cout << "\tCanonicalization test A Success\n\n";
-    else{
-        cout << "\tCanonicalization test A Failure\n\n";
-    }
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    if(isSameStack(c1,c2))
+	        cout << "\tCanonicalization test A Success\n\n";
+	    else{
+	        cout << "\tCanonicalization test A Failure\n\n";
+	    }
 
-    testString = "~/../../../../test/filepathtest/testing/";
-    testAgainst = "~/test/filepathtest/testing/";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tCanonicalization test B Success\n\n";
-    else{
-        cout << "\tCanonicalization test B Failure\n\n";
-    }
+	    testString = "~/../../../../test/filepathtest/testing/";
+	    testAgainst = "~/test/filepathtest/testing/";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tCanonicalization test B Success\n\n";
+	    else{
+	        cout << "\tCanonicalization test B Failure\n\n";
+	    }
 
-    cout << "Test 3\nVerify that canonicalization can handle filepaths with \".../\"\n";
-    testString = "test/filepathtest/.../test/filepathtest/testing";
-    testAgainst = "test/filepathtest/testing/";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tCanonicalization test A Success\n\n";
-    else{
-        cout << "\tCanonicalization test A Failure\n\n";
-    }
+	    cout << "Test 3\nVerify that canonicalization can handle filepaths with \".../\"\n";
+	    testString = "test/filepathtest/.../test/filepathtest/testing";
+	    testAgainst = "test/filepathtest/testing/";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tCanonicalization test A Success\n\n";
+	    else{
+	        cout << "\tCanonicalization test A Failure\n\n";
+	    }
 
-    testString = "~/test/.../test/filepathtest/testing/";
-    testAgainst = "~/test/filepathtest/testing/";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tCanonicalization test B Success\n\n";
-    else{
-        cout << "\tCanonicalization test B Failure\n\n";
-    }
+	    testString = "~/test/.../test/filepathtest/testing/";
+	    testAgainst = "~/test/filepathtest/testing/";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tCanonicalization test B Success\n\n";
+	    else{
+	        cout << "\tCanonicalization test B Failure\n\n";
+	    }
 
-    cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
-    testString = "~/test/something";
-    string homeDir = getUserInput("Please input your home directory path: ");
-	testAgainst = homeDir + "/test/something";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tCannonicalization test A Success\n\n";
-    else{
-        cout << "\tCannonicalization test A Failure\n\n";
-    }
+	    cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
+	    testString = "~/test/something";
+	    string homeDir = getUserInput("Please input your home directory path: ");
+		testAgainst = homeDir + "/test/something";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tCannonicalization test A Success\n\n";
+	    else{
+	        cout << "\tCannonicalization test A Failure\n\n";
+	    }
 
 
-    cout << "Test 5\nVerify that canonicalization can handle filepaths from the current directory\n";
-    testString = "test/filepathtest/testing";
-    string currentDir = getUserInput("Please input your current directory path: ");
-    testAgainst = currentDir + "/test/filepathtest/testing";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tSUCCESS: The current directory is accounted for.\n\n";
-    else{
-        cout << "\tFAILURE: The current directory is not correctly accounted for.\n\n";
-    }
+	    cout << "Test 5\nVerify that canonicalization can handle filepaths from the current directory\n";
+	    testString = "test/filepathtest/testing";
+	    string currentDir = getUserInput("Please input your current directory path: ");
+	    testAgainst = currentDir + "/test/filepathtest/testing";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tSUCCESS: The current directory is accounted for.\n\n";
+	    else{
+	        cout << "\tFAILURE: The current directory is not correctly accounted for.\n\n";
+	    }
 
-    cout << "Test 6\nVerify that canonicalization can handle direct filepaths\n";
-    testString = "/test/./filepathtest/testing";
-    testAgainst = "/test/filepathtest/testing";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    c1 = canonicalization(testString);
-    c2 = canonicalization(testAgainst);
-    if(isSameStack(c1,c2))
-        cout << "\tSUCCESS: Direct paths work.\n\n";
-    else{
-        cout << "\tFAILURE: Direct paths are not correctly accounted for.\n\n";
-    }
+	    cout << "Test 6\nVerify that canonicalization can handle direct filepaths\n";
+	    testString = "/test/./filepathtest/testing";
+	    testAgainst = "/test/filepathtest/testing";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    c1 = canonicalization(testString);
+	    c2 = canonicalization(testAgainst);
+	    if(isSameStack(c1,c2))
+	        cout << "\tSUCCESS: Direct paths work.\n\n";
+	    else{
+	        cout << "\tFAILURE: Direct paths are not correctly accounted for.\n\n";
+	    }
 
-    return ;
+	    return ;
 }
 
  
@@ -419,44 +419,44 @@ void HomographsTest()
 ************************************************************************/
 void NonHomographsTest()
 {
-    cout << "Non-Homograph Test\n\n";
+	    cout << "Non-Homograph Test\n\n";
 
-    cout << "Test 1\nEnsure that isSameStack functions properly\n";
-    stack<string> testStack1;
-    stack<string> testStack2;
-    stack<string> testStack3;
-    testStack1.push("1");
-    testStack1.push("2");
-    testStack1.push("3");
-    testStack2.push("1");
-    testStack2.push("2");
-    testStack2.push("3");
-    testStack3.push("a");
-    testStack3.push("b");
-    testStack3.push("c");
+	    cout << "Test 1\nEnsure that isSameStack functions properly\n";
+	    stack<string> testStack1;
+	    stack<string> testStack2;
+	    stack<string> testStack3;
+	    testStack1.push("1");
+	    testStack1.push("2");
+	    testStack1.push("3");
+	    testStack2.push("1");
+	    testStack2.push("2");
+	    testStack2.push("3");
+	    testStack3.push("a");
+	    testStack3.push("b");
+	    testStack3.push("c");
 
-    if(isSameStack(testStack1,testStack2) && !isSameStack(testStack1,testStack3))
-        cout << "\tSuccess - isSameStack is functioning properly. Canon can be compared.\n\n";
-    else{
-        cout << "\tFailure. isSameStack can not compare stack Canons.\n\n";
-    }
+	    if(isSameStack(testStack1,testStack2) && !isSameStack(testStack1,testStack3))
+	        cout << "\tSuccess - isSameStack is functioning properly. Canon can be compared.\n\n";
+	    else{
+	        cout << "\tFailure. isSameStack can not compare stack Canons.\n\n";
+	    }
 
-    string testString = "test/notsamepathtest/testing/";
-    string testAgainst = "test/filepathtest/testing/";
+	    string testString = "test/notsamepathtest/testing/";
+	    string testAgainst = "test/filepathtest/testing/";
 
-    stack<string> c1 = canonicalization(testString);
-    stack<string> c2 = canonicalization(testAgainst);
+	    stack<string> c1 = canonicalization(testString);
+	    stack<string> c2 = canonicalization(testAgainst);
 
-    cout << "Test 2\nVerify that canonicalization can recognize ";
-    cout << "when paths are not homographs\n";
-    cout << "\t" << testString << "\n\t" << testAgainst << endl;
-    if(!isSameStack(c1,c2))
-        cout << "\tCanonicalization test Success - non homograph\n\n";
-    else{
-        cout << "\tCanonicalization test Failure\n\n";
-    }
+	    cout << "Test 2\nVerify that canonicalization can recognize ";
+	    cout << "when paths are not homographs\n";
+	    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+	    if(!isSameStack(c1,c2))
+	        cout << "\tCanonicalization test Success - non homograph\n\n";
+	    else{
+	        cout << "\tCanonicalization test Failure\n\n";
+	    }
 
-    return ;
+	    return ;
 }
 
 /***********************************************************************
@@ -468,8 +468,10 @@ void NonHomographsTest()
  ************************************************************************/
 int main()
 {
-    HomographsTest();
-    NonHomographsTest();
-
+	int exit = 1;
+	while(exit){
+    	HomographsTest();
+    	NonHomographsTest();
+	}
     return 0;
 }
