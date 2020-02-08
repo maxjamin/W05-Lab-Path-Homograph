@@ -12,6 +12,8 @@
 
 using namespace std;
 
+stack<string> canonicalization(string);
+
 /***********************************************************************
 * Program:
 *    Lab 05, Homographs
@@ -39,9 +41,9 @@ bool isSameStack(
 	// If the stacks are not the same size
 	if (input.size() != path.size())
 	{
-		/*cout << "Size s1 = " << input.size() << "; size s2 = " << path.size() << '\n';
+		cout << "Size s1 = " << input.size() << "; size s2 = " << path.size() << '\n';
 
-		while (!(input.empty() && path.empty()))
+		/*while (!(input.empty() && path.empty()))
 		{
 			if (!input.empty())
 			{
@@ -87,10 +89,10 @@ bool isSameStack(
 * Summary:
 *    Get the userinput and pass to parameter. 
  ************************************************************************/
-string getUserInput()
+string getUserInput(string message)
 {
   string userInput;
-  cout << "Please enter a filepath: ";
+  cout << message;
   cin>> userInput;
   return userInput;
 }
@@ -103,13 +105,13 @@ https://cboard.cprogramming.com/c-programming/164689-how-get-users-home-director
  **********************************************************************/
 char *getHomedir()
 {
-    char homedir[MAX_PATH];
+    char homedir[MaxNum];
     #ifdef _WIN32
         // For running this program on Windows machines
-        snprintf(homedir, MAX_PATH, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH"));
+        snprintf(homedir, MaxNum, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH"));
     #else
         // For running this program on Linux machines
-        snprintf(homedir, MAX_PATH, "%s", getenv("HOME"));
+        snprintf(homedir, MaxNum, "%s", getenv("HOME"));
     #endif
         return strdup(homedir);
 }
@@ -132,6 +134,21 @@ string getCurrentDirectory()
    	}
   	return string(cwd);
 } 
+
+
+/***********************************************************************
+* Function: getCurrentDirectorySize
+* Inputs: none
+* Summary: returns the int size of the current working directory stack
+ **********************************************************************/
+int getHomeDirectorySize()
+{
+    string hd = getHomedir();
+    stack<string> homeDir = canonicalization("/" + hd);
+
+    return homeDir.size();
+} 
+
 
 /***********************************************************************
 * Function: toLowerCase()
@@ -184,6 +201,8 @@ void printStack(stack<string> stackToDisplay)
 stack<string> canonicalization(string stringPath)
 {
 	stack<string> parsedPath;
+    // The prependSize is to block the user from accessing files they wouldn't have access to.
+    int prependSize = 0;
 
 	if (stringPath[0] == '/' or stringPath[0] == '\\')
 	{
@@ -196,29 +215,34 @@ stack<string> canonicalization(string stringPath)
 		// This is a relative path starting from the user's HOME directory.
 		// Paste the HOME directory in before the stringPath
         string homedir = getHomedir();
+        prependSize = getHomeDirectorySize();
         // cout << "Home Directory: " << homedir << endl;
-        stringPath = homedir + stringPath;
+        stringPath = homedir + '/' + stringPath;
 	}
 	else
 	{
 		// This is a relative path starting from the current working directory.
 		// Paste that in front of the stringPath
         string cwd = getCurrentDirectory();
-        stringPath = cwd + stringPath;
+        prependSize = getHomeDirectorySize();
+        stringPath = cwd + '/' + stringPath;
 	}
+
+    // Remove extra slashes at the end of the string path
+    if (stringPath[stringPath.size() - 1] == '/' || stringPath[stringPath.size() - 1] == '\\')
+        stringPath.pop_back();
 
 	for (int i=0; i <= stringPath.size();)
 	{
 		// Extract one word at a time
 		string word = "";
-		bool endOfWord = false;
 		while(!(stringPath[i] == '/' || stringPath[i] == '\\') && i <= stringPath.size())
 		{
 			word += stringPath[i];
 			i++;
 		}
 
-		if (word.empty())
+		if (!word.empty())
 		{
 			// Make the word lowercase
 			word = toLowerCase(word);
@@ -230,15 +254,15 @@ stack<string> canonicalization(string stringPath)
 			else if (word == "..")
 			{
 				// Pop last word off the stack
-				if (parsedPath.size() != 0)
+				if (parsedPath.size() > prependSize)
 					parsedPath.pop();
 			}
 			else if (word == "...")
 			{
 				// Pop last two words off the stack
-				if (parsedPath.size() != 0)
+				if (parsedPath.size() > prependSize)
 					parsedPath.pop();
-				if (parsedPath.size() != 0)
+				if (parsedPath.size() > prependSize)
 					parsedPath.pop();
 			}
 			else if (word == "~")
@@ -249,6 +273,7 @@ stack<string> canonicalization(string stringPath)
 			else
 			{
 				// Push word onto stack
+                // cout << "Pushing word: " + word << endl;
 				parsedPath.push(word);
 			}
 		}
@@ -303,11 +328,11 @@ void HomographsTest()
         return ;
     }
 
-    testString = "../../../test/filepathtest/testing/";
-
+    testString = "~/../../../../test/filepathtest/testing/";
+    testAgainst = "~/test/filepathtest/testing/";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
-
+    c2 = canonicalization(testAgainst);
     if(isSameStack(c1,c2))
         cout << "\tCanonicalization test B Success\n\n";
     else{
@@ -317,9 +342,10 @@ void HomographsTest()
 
     cout << "Test 3\nVerify that canonicalization can handle filepaths with \".../\"\n";
     testString = "test/filepathtest/.../test/filepathtest/testing";
-
+    testAgainst = "test/filepathtest/testing/";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
     if(isSameStack(c1,c2))
         cout << "\tCanonicalization test A Success\n\n";
     else{
@@ -327,10 +353,11 @@ void HomographsTest()
         return ;
     }
 
-    testString = "test/.../test/filepathtest/testing/";
-
+    testString = "~/test/.../test/filepathtest/testing/";
+    testAgainst = "~/test/filepathtest/testing/";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
     if(isSameStack(c1,c2))
         cout << "\tCanonicalization test B Success\n\n";
     else{
@@ -338,14 +365,27 @@ void HomographsTest()
         return ;
     }
 
-    //cout << "Test 4\nVerify that canonicalization can handle filepaths with \"~/\"\n";
+    cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
+    testString = "~/test/something";
+    string homeDir = getUserInput("Please input your home directory path: ");
+	testAgainst = homeDir + "/test/something";
+    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+    c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
+    if(isSameStack(c1,c2))
+        cout << "\tCannonicalization test A Success\n\n";
+    else{
+        cout << "\tCannonicalization test A Failure\n\n";
+    }
 
 
     cout << "Test 5\nVerify that canonicalization can handle filepaths from the current directory\n";
-    testString = getCurrentDirectory() + "/test/filepathtest/testing";
-
+    testString = "test/filepathtest/testing";
+    string currentDir = getUserInput("Please input your current directory path: ");
+    testAgainst = currentDir + "/test/filepathtest/testing";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
     if(isSameStack(c1,c2))
         cout << "\tSUCCESS: The current directory is accounted for.\n\n";
     else{
@@ -356,7 +396,6 @@ void HomographsTest()
     cout << "Test 6\nVerify that canonicalization can handle direct filepaths\n";
     testString = "/test/./filepathtest/testing";
     testAgainst = "/test/filepathtest/testing";
-
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
     c2 = canonicalization(testAgainst);
@@ -369,6 +408,7 @@ void HomographsTest()
 
     return ;
 }
+
  
 /***********************************************************************
 * Function:
@@ -382,13 +422,7 @@ void NonHomographsTest()
 {
     cout << "Non-Homograph Test\n\n";
 
-    // cout << "Test 1\nVerify that user input is accepted\n";
-    // string testString = getUserInput();
-
-    // if(testString.length() != 0)
-    // cout << "Successfully grabbed user input\n";
-
-    cout << "Test 2\nEnsure that isSameStack functions properly\n";
+    cout << "Test 1\nEnsure that isSameStack functions properly\n";
     stack<string> testStack1;
     stack<string> testStack2;
     stack<string> testStack3;
@@ -415,7 +449,7 @@ void NonHomographsTest()
     stack<string> c1 = canonicalization(testString);
     stack<string> c2 = canonicalization(testAgainst);
 
-    cout << "Test 3\nVerify that canonicalization can recognize ";
+    cout << "Test 2\nVerify that canonicalization can recognize ";
     cout << "when paths are not homographs\n";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     if(!isSameStack(c1,c2))
