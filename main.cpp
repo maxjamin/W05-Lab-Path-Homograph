@@ -317,7 +317,6 @@ void HomographsTest()
         cout << "\tCanonicalization test Success\n\n";
     else{
         cout << "\tCanonicalization test Failure\n\n";
-        return ;
     }
 
 	printStack(c2);
@@ -331,7 +330,6 @@ void HomographsTest()
         cout << "\tCanonicalization test A Success\n\n";
     else{
         cout << "\tCanonicalization test A Failure\n\n";
-        return ;
     }
 
     testString = "~/../../../../test/filepathtest/testing/";
@@ -343,7 +341,6 @@ void HomographsTest()
         cout << "\tCanonicalization test B Success\n\n";
     else{
         cout << "\tCanonicalization test B Failure\n\n";
-        return ;
     }
 
     cout << "Test 3\nVerify that canonicalization can handle filepaths with \".../\"\n";
@@ -356,7 +353,6 @@ void HomographsTest()
         cout << "\tCanonicalization test A Success\n\n";
     else{
         cout << "\tCanonicalization test A Failure\n\n";
-        return ;
     }
 
     testString = "~/test/.../test/filepathtest/testing/";
@@ -368,7 +364,6 @@ void HomographsTest()
         cout << "\tCanonicalization test B Success\n\n";
     else{
         cout << "\tCanonicalization test B Failure\n\n";
-        return ;
     }
 
     cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
@@ -396,7 +391,6 @@ void HomographsTest()
         cout << "\tSUCCESS: The current directory is accounted for.\n\n";
     else{
         cout << "\tFAILURE: The current directory is not correctly accounted for.\n\n";
-        return ;
     }
 
     cout << "Test 6\nVerify that canonicalization can handle direct filepaths\n";
@@ -409,7 +403,6 @@ void HomographsTest()
         cout << "\tSUCCESS: Direct paths work.\n\n";
     else{
         cout << "\tFAILURE: Direct paths are not correctly accounted for.\n\n";
-        return ;
     }
 
     return ;
@@ -446,7 +439,6 @@ void NonHomographsTest()
         cout << "\tSuccess - isSameStack is functioning properly. Canon can be compared.\n\n";
     else{
         cout << "\tFailure. isSameStack can not compare stack Canons.\n\n";
-        return;
     }
 
     string testString = "test/notsamepathtest/testing/";
@@ -462,7 +454,6 @@ void NonHomographsTest()
         cout << "\tCanonicalization test Success - non homograph\n\n";
     else{
         cout << "\tCanonicalization test Failure\n\n";
-        return ;
     }
 
     return ;
