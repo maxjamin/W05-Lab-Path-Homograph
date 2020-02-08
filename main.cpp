@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <stdlib.h>
 #define MaxNum 1000
-#define	forbiddenPath "/home/readyone/Documents/school2/schoolWinter2020/cs470/W05-Lab-Path-Homograph"
 
 using namespace std;
 
