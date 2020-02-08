@@ -103,13 +103,13 @@ https://cboard.cprogramming.com/c-programming/164689-how-get-users-home-director
  **********************************************************************/
 char *getHomedir()
 {
-    char homedir[MAX_PATH];
+    char homedir[MaxNum];
     #ifdef _WIN32
         // For running this program on Windows machines
-        snprintf(homedir, MAX_PATH, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH"));
+        snprintf(homedir, MaxNum, "%s%s", getenv("HOMEDRIVE"), getenv("HOMEPATH"));
     #else
         // For running this program on Linux machines
-        snprintf(homedir, MAX_PATH, "%s", getenv("HOME"));
+        snprintf(homedir, MaxNum, "%s", getenv("HOME"));
     #endif
         return strdup(homedir);
 }
@@ -335,10 +335,21 @@ void HomographsTest()
         cout << "\tCannonicalization test B Success\n\n";
     else{
         cout << "\tCannonicalization test B Failure\n\n";
-        return ;
     }
 
-    //cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
+    cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
+    testString = "~/test/something";
+	testAgainst = "C:\\Users\\Tyler/test/something";
+
+    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+    c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
+    if(isSameStack(c1,c2))
+        cout << "\tCannonicalization test A Success\n\n";
+    else{
+        cout << "\tCannonicalization test A Failure\n\n";
+        return ;
+    }
 
     return ;
 }
