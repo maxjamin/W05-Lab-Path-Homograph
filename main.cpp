@@ -185,7 +185,7 @@ stack<string> canonicalization(string stringPath)
 {
 	stack<string> parsedPath;
 
-	if (stringPath[0] == '/')
+	if (stringPath[0] == '/' or stringPath[0] == '\\')
 	{
 		// This is an absolute path.
 		// The stringPath contains the entire filepath to check
@@ -278,28 +278,28 @@ void HomographsTest()
     string testAgainst = "test/filepathtest/testing/";
     //Test . handling .. handling ... handling ~ handling
 
-    cout << "Test 1\nVerify that cannonicalization can handle filepaths with \"./\"\n";
+    cout << "Test 1\nVerify that canonicalization can handle filepaths with \"./\"\n";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     stack<string> c1 = canonicalization(testString);
     stack<string> c2 = canonicalization(testAgainst);
     if(isSameStack(c1,c2))
-        cout << "\tCannonicalization test Success\n\n";
+        cout << "\tCanonicalization test Success\n\n";
     else{
-        cout << "\tCannonicalization test Failure\n\n";
+        cout << "\tCanonicalization test Failure\n\n";
         return ;
     }
 
 	printStack(c2);
 
-    cout << "Test 2\nVerify that cannonicalization can handle filepaths with \"../\"\n";
+    cout << "Test 2\nVerify that canonicalization can handle filepaths with \"../\"\n";
     testString = "test/filepathtest/../filepathtest/testing";
 
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
     if(isSameStack(c1,c2))
-        cout << "\tCannonicalization test A Success\n\n";
+        cout << "\tCanonicalization test A Success\n\n";
     else{
-        cout << "\tCannonicalization test A Failure\n\n";
+        cout << "\tCanonicalization test A Failure\n\n";
         return ;
     }
 
@@ -309,21 +309,21 @@ void HomographsTest()
     c1 = canonicalization(testString);
 
     if(isSameStack(c1,c2))
-        cout << "\tCannonicalization test B Success\n\n";
+        cout << "\tCanonicalization test B Success\n\n";
     else{
-        cout << "\tCannonicalization test B Failure\n\n";
+        cout << "\tCanonicalization test B Failure\n\n";
         return ;
     }
 
-    cout << "Test 3\nVerify that cannonicalization can handle filepaths with \".../\"\n";
+    cout << "Test 3\nVerify that canonicalization can handle filepaths with \".../\"\n";
     testString = "test/filepathtest/.../test/filepathtest/testing";
 
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
     if(isSameStack(c1,c2))
-        cout << "\tCannonicalization test A Success\n\n";
+        cout << "\tCanonicalization test A Success\n\n";
     else{
-        cout << "\tCannonicalization test A Failure\n\n";
+        cout << "\tCanonicalization test A Failure\n\n";
         return ;
     }
 
@@ -332,13 +332,40 @@ void HomographsTest()
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     c1 = canonicalization(testString);
     if(isSameStack(c1,c2))
-        cout << "\tCannonicalization test B Success\n\n";
+        cout << "\tCanonicalization test B Success\n\n";
     else{
-        cout << "\tCannonicalization test B Failure\n\n";
+        cout << "\tCanonicalization test B Failure\n\n";
         return ;
     }
 
-    //cout << "Test 4\nVerify that cannonicalization can handle filepaths with \"~/\"\n";
+    //cout << "Test 4\nVerify that canonicalization can handle filepaths with \"~/\"\n";
+
+
+    cout << "Test 5\nVerify that canonicalization can handle filepaths from the current directory\n";
+    testString = getCurrentDirectory() + "/test/filepathtest/testing";
+
+    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+    c1 = canonicalization(testString);
+    if(isSameStack(c1,c2))
+        cout << "\tSUCCESS: The current directory is accounted for.\n\n";
+    else{
+        cout << "\tFAILURE: The current directory is not correctly accounted for.\n\n";
+        return ;
+    }
+
+    cout << "Test 6\nVerify that canonicalization can handle direct filepaths\n";
+    testString = "/test/./filepathtest/testing";
+    testAgainst = "/test/filepathtest/testing";
+
+    cout << "\t" << testString << "\n\t" << testAgainst << endl;
+    c1 = canonicalization(testString);
+    c2 = canonicalization(testAgainst);
+    if(isSameStack(c1,c2))
+        cout << "\tSUCCESS: Direct paths work.\n\n";
+    else{
+        cout << "\tFAILURE: Direct paths are not correctly accounted for.\n\n";
+        return ;
+    }
 
     return ;
 }
@@ -388,13 +415,13 @@ void NonHomographsTest()
     stack<string> c1 = canonicalization(testString);
     stack<string> c2 = canonicalization(testAgainst);
 
-    cout << "Test 3\nVerify that cannonicalization can recognize ";
+    cout << "Test 3\nVerify that canonicalization can recognize ";
     cout << "when paths are not homographs\n";
     cout << "\t" << testString << "\n\t" << testAgainst << endl;
     if(!isSameStack(c1,c2))
-        cout << "\tCannonicalization test Success - non homograph\n\n";
+        cout << "\tCanonicalization test Success - non homograph\n\n";
     else{
-        cout << "\tCannonicalization test Failure\n\n";
+        cout << "\tCanonicalization test Failure\n\n";
         return ;
     }
 
